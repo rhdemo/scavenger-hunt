@@ -4,13 +4,19 @@
 <dom-module id="sh-navigation">
   <template>
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:600');
+
       :host {
         display: block;
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 100;
-        background-color: rgba(0,0,0,.5); /* these are the clouds pattern */
+        background-image: url(/images/game-dashboard-clouds.svg);
+        background-position: 0 0;
+        background-size: 100% auto;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
       }
 
       ul {
@@ -20,32 +26,57 @@
         padding: 0;
         justify-content: space-between;
         align-items: center;
-        padding: 0 2rem;
-        height: calc(38px * 2);
+        padding: 0 2rem 13vw 2rem;
+        height: 17vw;
+      }
+
+      li {
+        display: flex;
       }
 
       a {
+        display: flex;
         text-decoration: none;
         color: black;
+        padding: .5rem 1rem;
+        background: white;
+        border-radius: 40rem;
+        /* ensures that it's rounded */
+        box-shadow: inset 0 0 .6rem rgba(0, 0, 0, .3);
+      }
+
+      li:last-of-type a {
+        padding-left: .5rem;
+        padding-right: .5rem;
       }
 
       img {
         border-radius: 50%;
         display: block;
+        width: 25px;
+        height: 25px;
       }
 
+      img[src*="svg"] {
+        margin-right: .3rem;
+        display: block;
+        width: auto;
+        height: auto;
+      }
     </style>
 
     <ul>
-      <li>🎾 x 2542</li>
+      <li>
+        <img src="/images/coin.svg" alt="Point: Icon of a coin"> x 2542</li>
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="leaderboard">
-          🏆 <sh-number type="ordinal" number="10"></sh-number>
+          <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy">
+          <sh-number type="ordinal" number="10"></sh-number>
         </a>
       </li>
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="profile">
-          <img src="http://via.placeholder.com/50x50" alt="username">
+          <img src="/images/andres.jpg" alt="avatar of andres galante" class="user">
         </a>
       </li>
     </ul>
