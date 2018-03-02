@@ -10,12 +10,16 @@
 <dom-module id="sh-main">
   <template>
     <style>
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
       :host {
         display: block;
         /* flex-direction: column; */
         /* height: 100vh;
         overflow: hidden; */
         /* position: relative; */
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
       }
 
       .panel {
@@ -26,7 +30,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        z-index: 200;
+        z-index: 800;
         transition: visibility 0.5s linear,
         transform 0.5s ease-in-out;
         transform: translate3d(0, 100vh, 0);
@@ -127,29 +131,34 @@
         display: block;
       }
 
-      .dude {
+      .user {
+        position: relative;
+        z-index: 200;
         height: 10vw;
         width: 10vw;
         grid-column: 4;
         grid-row: 4;
         animation: example 20s infinite alternate;
+        animation-play-state: paused;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
       }
 
-      .user {
+      .user__picture {
         display: block;
-        width: 8vw;
-        height: 8vw;
+        width: calc(8vw - 4px);
+        height: calc(8vw - 4px);
         border-radius: 50%;
         animation: hover 1.4s ease infinite alternate;
-        flex: 0 0 8vw;
-        border: 1px solid #ccc;
+        flex: 0 0 calc(8vw - 4px);
+        border: 1px solid rgba(0, 0, 0, .2);
+        background-color: white;
+        padding: 2px;
       }
 
-      .shadow {
+      .user__shadow {
         width: 6vw;
         height: 2vw;
         background-color: rgba(0, 0, 0, .3);
@@ -159,9 +168,6 @@
       }
 
       @keyframes hover {
-        0% {
-          /* transform: scale3d(1.1, 1, 1) */
-        }
         100% {
           transform: translateY(-20%);
         }
@@ -198,45 +204,42 @@
           transform: translate3d(-300%, 500%, 0);
         }
         20% {
-          transform: translate3d(-300%, 500%, 0);
-        }
-        25% {
           transform: translate3d(100%, 500%, 0);
         }
-        30% {
+        25% {
           transform: translate3d(100%, 900%, 0);
         }
-        35% {
+        30% {
           transform: translate3d(0%, 900%, 0);
         }
-        40% {
+        35% {
           transform: translate3d(0%, 800%, 0);
         }
-        45% {
+        40% {
           transform: translate3d(-200%, 800%, 0);
         }
-        50% {
+        45% {
           transform: translate3d(-200%, 1300%, 0);
         }
-        55% {
+        50% {
           transform: translate3d(400%, 1300%, 0);
         }
-        60% {
+        55% {
           transform: translate3d(400%, 1800%, 0);
         }
-        75% {
+        60% {
           transform: translate3d(-100%, 1800%, 0);
         }
-        80% {
+        65% {
           transform: translate3d(-100%, 2000%, 0);
         }
-        85% {
+        70% {
           transform: translate3d(100%, 2000%, 0);
         }
-        90% {
+        75% {
           transform: translate3d(100%, 2100%, 0);
         }
-        95% {
+        80% {
           transform: translate3d(200%, 2100%, 0);
         }
         100% {
@@ -250,9 +253,9 @@
 
     <div class="map">
 
-      <div class="dude" style="animation-play-state: play;">
-        <img src="/images/andres.jpg" alt="avatar of andres galante" class="user">
-        <div class="shadow"></div>
+      <div class="user">
+        <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
+        <div class="user__shadow"></div>
       </div>
 
       <button class="party-island">
