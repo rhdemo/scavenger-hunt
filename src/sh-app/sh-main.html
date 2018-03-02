@@ -30,6 +30,10 @@
         transition: visibility 0.5s linear,
         transform 0.5s ease-in-out;
         transform: translate3d(0, 100vh, 0);
+        will-change: transform, visibility;
+        overflow: scroll;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
       }
 
       .panel.open {
@@ -40,22 +44,33 @@
       }
 
       .map {
-        background-image: url(/images/map.png);
+        background-image: url(/images/game-screen-100.png);
         background-repeat: no-repeat;
         background-position: 0 0;
+        background-size: auto 100%;
         display: grid;
         grid-template-columns: repeat(10, 1fr);
         grid-template-rows: repeat(31, 10vw);
       }
 
+      /* Retina-specific */
+
+      @media (-webkit-min-device-pixel-ratio: 2),
+      (min-resolution: 192dpi) {
+        .map {
+          background-image: url(/images/game-screen-200.png);
+        }
+      }
+
       .party-island {
         grid-column: 9;
-        grid-row: 6 / 12;
-        background-color: yellow;
+        grid-row: 7 / 11;
+        background-color: rgba(0, 0, 0, .5);
       }
 
       .stage {
-        background-color: hotpink;
+        background-color: rgba(0, 0, 0, .5);
+        border-radius: 50%;
         position: relative;
       }
 
@@ -102,7 +117,7 @@
       .stage__action {
         border: 0;
         background-color: transparent;
-        outline: 2px solid red;
+        outline: 2px solid rgba(0, 0, 0, .1);
         position: absolute;
         width: calc(100% + 20px);
         top: -10px;
@@ -111,48 +126,168 @@
         z-index: 10;
         display: block;
       }
+
+      .dude {
+        height: 10vw;
+        width: 10vw;
+        grid-column: 4;
+        grid-row: 4;
+        animation: example 20s infinite alternate;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .user {
+        display: block;
+        width: 8vw;
+        height: 8vw;
+        border-radius: 50%;
+        animation: hover 1.4s ease infinite alternate;
+        flex: 0 0 8vw;
+        border: 1px solid #ccc;
+      }
+
+      .shadow {
+        width: 6vw;
+        height: 2vw;
+        background-color: rgba(0, 0, 0, .3);
+        flex: 0 0 2vw;
+        border-radius: 50%;
+        animation: shadow 1.4s ease infinite alternate;
+      }
+
+      @keyframes hover {
+        0% {
+          /* transform: scale3d(1.1, 1, 1) */
+        }
+        100% {
+          transform: translateY(-20%);
+        }
+      }
+
+      @keyframes shadow {
+        0% {
+          transform: scale3d(1, 1, 1);
+        }
+        100% {
+          transform: scale3d(.8, .8, 1);
+          filter: opacity(30%)
+        }
+      }
+
+      @keyframes bounce {
+        0% {
+          transform: scale3d(1.1, 1, 1)
+        }
+        100% {
+          transform: translateY(-1em) scale3d(0.9, 1, 1)
+        }
+      }
+
+      @keyframes example {
+        0 {}
+        5% {
+          transform: translate3d(0, 300%, 0);
+        }
+        10% {
+          transform: translate3d(-300%, 300%, 0);
+        }
+        15% {
+          transform: translate3d(-300%, 500%, 0);
+        }
+        20% {
+          transform: translate3d(-300%, 500%, 0);
+        }
+        25% {
+          transform: translate3d(100%, 500%, 0);
+        }
+        30% {
+          transform: translate3d(100%, 900%, 0);
+        }
+        35% {
+          transform: translate3d(0%, 900%, 0);
+        }
+        40% {
+          transform: translate3d(0%, 800%, 0);
+        }
+        45% {
+          transform: translate3d(-200%, 800%, 0);
+        }
+        50% {
+          transform: translate3d(-200%, 1300%, 0);
+        }
+        55% {
+          transform: translate3d(400%, 1300%, 0);
+        }
+        60% {
+          transform: translate3d(400%, 1800%, 0);
+        }
+        75% {
+          transform: translate3d(-100%, 1800%, 0);
+        }
+        80% {
+          transform: translate3d(-100%, 2000%, 0);
+        }
+        85% {
+          transform: translate3d(100%, 2000%, 0);
+        }
+        90% {
+          transform: translate3d(100%, 2100%, 0);
+        }
+        95% {
+          transform: translate3d(200%, 2100%, 0);
+        }
+        100% {
+          transform: translate3d(200%, 2600%, 0);
+        }
+      }
     </style>
 
     <sh-navigation></sh-navigation>
 
+
     <div class="map">
+
+      <div class="dude" style="animation-play-state: play;">
+        <img src="/images/andres.jpg" alt="avatar of andres galante" class="user">
+        <div class="shadow"></div>
+      </div>
 
       <button class="party-island">
         Party! 🎉
       </button>
 
       <div class="stage stage--one">
-        <button class="stage__action">1✨</button>
+        <button class="stage__action">1</button>
       </div>
       <div class="stage stage--two">
-        <button class="stage__action">2✨</button>
+        <button class="stage__action">2</button>
       </div>
       <div class="stage stage--three">
-        <button class="stage__action">3✨</button>
+        <button class="stage__action">3</button>
       </div>
       <div class="stage stage--four">
-        <button class="stage__action">4✨</button>
+        <button class="stage__action">4</button>
       </div>
       <div class="stage stage--five">
-        <button class="stage__action">5✨</button>
+        <button class="stage__action">5</button>
       </div>
       <div class="stage stage--six">
-        <button class="stage__action">6✨</button>
+        <button class="stage__action">6</button>
       </div>
       <div class="stage stage--seven">
-        <button class="stage__action">7✨</button>
+        <button class="stage__action">7</button>
       </div>
       <div class="stage stage--eight">
-        <button class="stage__action">8✨</button>
+        <button class="stage__action">8</button>
       </div>
 
     </div>
 
     <button on-click="capturePhoto">Capture Photo</button>
-    <iron-pages
-      class$="panel [[panelOpen]]"
-      selected="[[navItem]]"
-      attr-for-selected="name">
+    <iron-pages class$="panel [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
       <sh-panel name="profile">
         <sh-profile></sh-profile>
       </sh-panel>
