@@ -11,7 +11,9 @@
   <template>
     <style>
       @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
-
+      /* 
+        Loader indicator 
+      */
       :host {
         display: block;
         /* flex-direction: column; */
@@ -20,6 +22,7 @@
         /* position: relative; */
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
+        --plays-tate: paused;
       }
 
       .panel {
@@ -53,7 +56,7 @@
         background-position: 0 0;
         background-size: auto 100%;
         display: grid;
-        grid-template-columns: repeat(10, 1fr);
+        grid-template-columns: repeat(10, 10vw);
         grid-template-rows: repeat(31, 10vw);
       }
 
@@ -81,13 +84,13 @@
         position: relative;
       }
 
-       .stage--done {
+      .stage--done {
         background-color: #ffbf00;
         border: 2px solid #dd9e00;
-       }
+      }
 
       /*
-      stage 1 = 5%
+      stage 1 = 5% 
       stage 2 = 11
       stage 3 = 14
       stage 4 = 20
@@ -96,6 +99,7 @@
       stage 7 = 38
       stage 8 = 50
       */
+
       .stage--one {
         grid-column: 2;
         grid-row: 7;
@@ -138,9 +142,6 @@
         border: none;
         box-shadow: none;
       }
-      .stage--eight .stage__action {
-
-      }
 
       .stage__action {
         border: 0;
@@ -157,6 +158,16 @@
         display: block;
       }
 
+      .castle {
+        background-image: url(/images/castle.svg);
+        background-repeat: no-repeat;
+        background-size: 94%;
+        background-position-y: 7vw;
+        grid-column: 3 / 8;
+        grid-row: 27 / 32;
+        z-index: 400;
+      }
+
       .user {
         position: relative;
         z-index: 200;
@@ -164,12 +175,13 @@
         width: 10vw;
         grid-column: 4;
         grid-row: 4;
-        animation: example 10s linear infinite alternate;
-        /* animation-play-state: paused; */
+        animation: path 10s linear infinite alternate;
+        animation-play-state: var(--plays-tate);
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
+        pointer-events: none;
       }
 
       .user__picture {
@@ -209,16 +221,7 @@
         }
       }
 
-      @keyframes bounce {
-        0% {
-          transform: scale3d(1.1, 1, 1)
-        }
-        100% {
-          transform: translateY(-1em) scale3d(0.9, 1, 1)
-        }
-      }
-
-      @keyframes example {
+      @keyframes path {
         0 {}
 
         6% {
@@ -237,7 +240,7 @@
           transform: translate3d(100%, 800%, 0);
         }
         36% {
-          transform: translate3d(-200%,800%, 0);
+          transform: translate3d(-200%, 800%, 0);
         }
         46% {
           transform: translate3d(-200%, 1300%, 0);
@@ -256,12 +259,17 @@
         }
         92% {
           transform: translate3d(400%, 2600%, 0);
+          z-index: 0;
         }
+
         94% {
           transform: translate3d(400%, 2700%, 0);
+          z-index: 700;
         }
+
         100% {
           transform: translate3d(100%, 2700%, 0);
+          z-index: 700;
         }
       }
     </style>
@@ -274,6 +282,7 @@
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
+      <div class="castle"></div>
 
       <button class="party-island">
         Party! 🎉
