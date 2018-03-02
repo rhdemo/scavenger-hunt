@@ -13,16 +13,44 @@
     </style>
 
     <h1>Capture Photo</h1>
+    <p>[[task.description]]</p>
     <input type="file" id="imageInput" name="image" accept="image/*" />
     <div>
       <canvas id="canvas"></canvas>
     </div>
+    <template is="dom-if" if="[[loading]]" restamp="true">
+      Loading...
+    </template>
     <button on-click="upload">Upload Photo</button>
   </template>
 
   <script>
     class ShCapturePhoto extends Polymer.Element {
       static get is() { return 'sh-capture-photo'; }
+      static get properties() {
+        return {
+          loading: {
+            type: Boolean,
+            value: false
+          },
+          photos: {
+            type: Array,
+            value: [],
+            notify: true
+          },
+          success: {
+            type: Boolean,
+            value: false
+          },
+          error: {
+            type: Boolean,
+            value: false
+          },
+          task: {
+            type: Object
+          }
+        };
+      }
 
       constructor() {
         super();
@@ -71,9 +99,12 @@
 
       upload() {
         let image = this.canvas.toDataURL('image/jpeg');
-        let body = JSON.stringify({
+        let data = {
+          created: new Date(),
           image: image
-        });
+        };
+
+        let body = JSON.stringify(data);
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let request = new Request('http://localhost:8085/upload', {
@@ -82,8 +113,15 @@
           headers: headers
         });
 
-        fetch(request)
-          .then(data => console.log(data));
+        this.loading = true;
+
+        Polymer.Async.timeOut.run(() => {
+          this.loading = false;
+          this.push('photos', data);
+        }, 1500);
+
+        // fetch(request)
+        //   .then(data => console.log(data));
       }
     }
 

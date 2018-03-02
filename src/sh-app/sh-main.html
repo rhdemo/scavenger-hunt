@@ -1,11 +1,13 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <link rel="import" href="./sh-navigation.html">
 <link rel="import" href="./sh-panel.html">
 <link rel="import" href="./sh-leaderboard.html">
 <link rel="import" href="./sh-profile.html">
 <link rel="import" href="./sh-capture-photo.html">
+<link rel="import" href="./sh-party-island.html">
 
 <dom-module id="sh-main">
   <template>
@@ -274,6 +276,8 @@
       }
     </style>
 
+    <app-localstorage-document key="photos" data="{{photos}}"></app-localstorage-document>
+
     <sh-navigation></sh-navigation>
 
     <div class="map">
@@ -284,7 +288,7 @@
       </div>
       <div class="castle"></div>
 
-      <button class="party-island">
+      <button class="party-island" on-click="openPartyIsland">
         Party! 🎉
       </button>
 
@@ -315,16 +319,20 @@
 
     </div>
 
+    <sh-panel class$="panel [[partyIslandOpen]]" name="party-island">
+      <sh-party-island tasks="{{tasks}}"></sh-party-island>
+    </sh-panel>
+
     <button on-click="capturePhoto">Capture Photo</button>
     <iron-pages class$="panel [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
       <sh-panel name="profile">
-        <sh-profile></sh-profile>
+        <sh-profile photos="{{photos}}"></sh-profile>
       </sh-panel>
       <sh-panel name="leaderboard">
         <sh-leaderboard></sh-leaderboard>
       </sh-panel>
       <sh-panel name="capture-photo">
-        <sh-capture-photo></sh-capture-photo>
+        <sh-capture-photo photos="{{photos}}" task="{{selectedTask}}"></sh-capture-photo>
       </sh-panel>
     </iron-pages>
   </template>
@@ -338,9 +346,24 @@
             type: String,
             value: 'leaderboard'
           },
-          panelOpenClass: {
+          panelOpen: {
             type: String,
             value: ''
+          },
+          partyIslandOpen: {
+            type: String,
+            value: ''
+          },
+          tasks: {
+            type: Array,
+            value: [
+              { description: 'Take a picture of the Red Hat logo' },
+              { description: 'Take a picture of a person smiling' },
+              { description: 'Take a picture of Tux' }
+            ]
+          },
+          selectedTask: {
+            type: Object
           }
         };
       }
@@ -353,21 +376,39 @@
 
       navItemSelectedHandler(event) {
         this.navItem = event.detail.navItem;
+
+        if (event.detail.selectedTaskIndex !== undefined) {
+          this.selectedTask = this.get(['tasks', event.detail.selectedTaskIndex]);
+        }
+
         this.panelOpen = 'open';
       }
 
-      closeNav() {
+      closeNav(event) {
+        if (event.detail.panel === 'party-island') {
+          this.partyIslandOpen = '';
+          return;
+        }
+
         this.panelOpen = '';
       }
 
-      capturePhoto() {
+      fireNavItemSelectedEvent(navItem) {
         const customEvent = new CustomEvent('nav-item-selected', {
           detail: {
-            navItem: 'capture-photo'
+            navItem: navItem
           }
         });
 
         this.dispatchEvent(customEvent);
+      }
+
+      capturePhoto() {
+        this.fireNavItemSelectedEvent('capture-photo');
+      }
+
+      openPartyIsland() {
+        this.partyIslandOpen = 'open';
       }
     }
 

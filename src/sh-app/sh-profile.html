@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
+<link rel="import" href="./sh-capture-photo-history.html">
+
 <dom-module id="sh-profile">
   <template>
     <style>
@@ -13,11 +15,20 @@
     </style>
 
     <h1>Profile</h1>
+    <sh-capture-photo-history photos="{{photos}}"></sh-capture-photo-history>
   </template>
 
   <script>
     class ShProfile extends Polymer.Element {
       static get is() { return 'sh-profile'; }
+      static get properties() {
+        return {
+          photos: {
+            type: Array,
+            value: []
+          }
+        };
+      }
     }
 
     window.customElements.define(ShProfile.is, ShProfile);

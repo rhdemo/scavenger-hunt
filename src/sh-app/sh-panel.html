@@ -24,10 +24,13 @@
     class ShPanel extends Polymer.Element {
       static get is() { return 'sh-panel' };
 
-      closePanel() {
+      closePanel(event) {
         const customEvent = new CustomEvent('nav-item-close', {
           bubbles: true,
-          composed: true
+          composed: true,
+          detail: {
+            panel: this.getAttribute('name')
+          }
         });
 
         this.dispatchEvent(customEvent);

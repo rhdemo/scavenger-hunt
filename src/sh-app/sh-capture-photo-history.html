@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="sh-capture-photo-history">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <h2>Capture photo history</h2>
+    <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
+      <div>
+        <div>
+          <img src$="[[photo.image]]">
+        </div>
+        <div>
+          Submitted at [[photo.created]]
+        </div>
+      </div>
+    </template>
+  </template>
+
+  <script>
+    class ShCapturePhotoHistory extends Polymer.Element {
+      static get is() { return 'sh-capture-photo-history'; }
+      static get properties() {
+        return {
+          photos: {
+            type: Array,
+            value: []
+          }
+        };
+      }
+    }
+
+    window.customElements.define(ShCapturePhotoHistory.is, ShCapturePhotoHistory);
+  </script>
+</dom-module>

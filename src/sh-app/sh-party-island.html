@@ -1,0 +1,50 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="sh-party-island">
+  <template>
+    <style>
+      :host {
+        display: block;
+        min-height: 100%;
+        background: #ececec;
+        padding: 2rem;
+      }
+    </style>
+
+    <h1>Party Island</h1>
+    <template is="dom-repeat" items="{{tasks}}" as="task" index-as="index">
+      <div on-click="capturePhoto">
+        [[task.description]]
+      </div>
+    </template>
+  </template>
+
+  <script>
+    class ShPartyIsland extends Polymer.Element {
+      static get is() { return 'sh-party-island'; }
+      static get properties() {
+        return {
+          tasks: {
+            type: Array,
+            value: []
+          }
+        };
+      }
+
+      capturePhoto(event) {
+        const customEvent = new CustomEvent('nav-item-selected', {
+          detail: {
+            navItem: 'capture-photo',
+            selectedTaskIndex: event.model.index
+          },
+          bubbles: true,
+          composed: true
+        });
+
+        this.dispatchEvent(customEvent);
+      }
+    }
+
+    window.customElements.define(ShPartyIsland.is, ShPartyIsland);
+  </script>
+</dom-module>
