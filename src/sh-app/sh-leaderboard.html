@@ -95,7 +95,7 @@
       .leaderboard__position {
         font-weight: 600;
         font-size: 1.3rem;
-        flex: 0 0 3rem;
+        flex: 0 0 4rem;
       }
 
       /* .leaderboard__username {} */
@@ -103,135 +103,75 @@
 
     <h1>Leaderboard</h1>
     <p>
-      <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy"> You are on the <strong>826 place</strong>!
+      <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy"> You are on the <strong>823<sup>[[_computeSuffix(823)]]</sup> place</strong>!
     </p>
 
     <h2>Top 100</h2>
     <ol>
-      <li>
-        <span class="leaderboard__position"> 1
-          <sup>st</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 2
-          <sup>nd</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 3
-          <sup>rd</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 4
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 5
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 6
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 7
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 8
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 9
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 10
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 11
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 12
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-      <li>
-        <span class="leaderboard__position"> 13
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 14
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
-
-      <li>
-        <span class="leaderboard__position"> 15
-          <sup>th</sup>
-        </span>
-        <img src="/images/andres.jpg" alt="avatar of andres galante" alt="username">
-        <span class="leaderboard__username">Andres Galante</span>
-      </li>
+      <template is="dom-repeat" items="[[leaders]]" as="leader" index-as="index">
+        <li>
+          <span class="leaderboard__position"> [[_computePosition(index)]]
+            <sup>[[_computeSuffix(index, 1)]]</sup>
+          </span>
+          <img src$="[[leader.profile_photo]]" alt$="Avatar of [[leader.username]]">
+          <span class="leaderboard__username">[[leader.username]]</span>
+        </li>
+      </template>
     </ol>
   </template>
 
+  <script src="../name-generator.js"></script>
   <script>
     class ShLeaderboard extends Polymer.Element {
       static get is() { return 'sh-leaderboard'; }
+      static get properties() {
+        return {
+          leaders: {
+            type: Array,
+            value: function () {
+              let leaders = [];
+
+              for (let i = 0; i < 100; i++) {
+                let leader = {
+                  username: generateUsername(),
+                  profile_photo: '/images/andres.jpg'
+                };
+
+                leaders.push(leader);
+              }
+
+              return leaders;
+            }
+          }
+        };
+      }
+
+      _computePosition(index) {
+        return index + 1;
+      }
+
+      _computeSuffix(index, incrementBy) {
+        if (incrementBy) {
+          index = index + incrementBy;
+        }
+
+        let j = index % 10;
+        let k = index % 100;
+
+        if (j == 1 && k != 11) {
+          return "st";
+        }
+
+        if (j == 2 && k != 12) {
+          return "nd";
+        }
+
+        if (j == 3 && k != 13) {
+          return "rd";
+        }
+
+        return "th";
+      }
     }
 
     window.customElements.define(ShLeaderboard.is, ShLeaderboard);
