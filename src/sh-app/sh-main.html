@@ -13,8 +13,8 @@
   <template>
     <style>
       @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
-      /* 
-        Loader indicator 
+      /*
+        Loader indicator
       */
       :host {
         display: block;
@@ -92,7 +92,7 @@
       }
 
       /*
-      stage 1 = 5% 
+      stage 1 = 5%
       stage 2 = 11
       stage 3 = 14
       stage 4 = 20
@@ -323,8 +323,7 @@
       <sh-party-island tasks="{{tasks}}"></sh-party-island>
     </sh-panel>
 
-    <button on-click="capturePhoto">Capture Photo</button>
-    <iron-pages class$="panel [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
+    <iron-pages class$="panel panel-modal [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
       <sh-panel name="profile">
         <sh-profile photos="{{photos}}"></sh-profile>
       </sh-panel>
@@ -370,8 +369,17 @@
 
       constructor() {
         super();
+
+        this.panelModalTransitionEndHandler = this.panelModalTransitionEndHandler.bind(this);
         this.addEventListener('nav-item-selected', this.navItemSelectedHandler);
         this.addEventListener('nav-item-close', this.closeNav);
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+
+        this.shadowRoot.querySelector('.panel-modal').addEventListener('transitionend', this.panelModalTransitionEndHandler);
+        this.shCapturePhotoElement = this.shadowRoot.querySelector('sh-capture-photo');
       }
 
       navItemSelectedHandler(event) {
@@ -409,6 +417,12 @@
 
       openPartyIsland() {
         this.partyIslandOpen = 'open';
+      }
+
+      panelModalTransitionEndHandler(event) {
+        if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo') {
+          this.shCapturePhotoElement.reset();
+        }
       }
     }
 

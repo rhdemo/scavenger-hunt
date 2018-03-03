@@ -60,8 +60,6 @@
       connectedCallback() {
         super.connectedCallback();
 
-        this.canvas = this.shadowRoot.querySelector('#canvas');
-        this.canvasContext = this.canvas.getContext('2d');
         this.imageInput = this.shadowRoot.querySelector('#imageInput');
         this.imageInput.addEventListener('change', this.imageInputOnChangeHandler);
       }
@@ -122,6 +120,18 @@
 
         // fetch(request)
         //   .then(data => console.log(data));
+      }
+
+      reset() {
+        this.loading = false;
+        this.success = false;
+        this.error = false;
+        this.task = null;
+        this.imageInput.value = '';
+
+        const canvas = this.shadowRoot.querySelector('canvas');
+        const canvasContext = canvas.getContext('2d');
+        canvasContext.clearRect(0, 0, 300, 600);
       }
     }
 
