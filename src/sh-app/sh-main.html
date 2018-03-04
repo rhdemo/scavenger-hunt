@@ -281,46 +281,23 @@
     <sh-navigation></sh-navigation>
 
     <div class="map">
-
       <div class="user">
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
       <div class="castle"></div>
-
       <button class="party-island" on-click="openPartyIsland">
         Party! 🎉
       </button>
-
-      <div class="stage stage--one stage--done">
-        <button class="stage__action">1</button>
-      </div>
-      <div class="stage stage--two stage--done">
-        <button class="stage__action">2</button>
-      </div>
-      <div class="stage stage--three">
-        <button class="stage__action">3</button>
-      </div>
-      <div class="stage stage--four">
-        <button class="stage__action">4</button>
-      </div>
-      <div class="stage stage--five">
-        <button class="stage__action">5</button>
-      </div>
-      <div class="stage stage--six">
-        <button class="stage__action">6</button>
-      </div>
-      <div class="stage stage--seven">
-        <button class="stage__action">7</button>
-      </div>
-      <div class="stage stage--eight">
-        <button class="stage__action"></button>
-      </div>
-
+      <template is="dom-repeat" items="{{mapTasks}}" as="mapTask" index-as="index">
+        <div class$="stage stage--[[mapTask.stage]] [[_computeStageCompleted(mapTask.completed)]]">
+          <button class="stage__action" on-click="openMapTask">[[_computeIndexPlusOne(index)]]</button>
+        </div>
+      </template>
     </div>
 
     <sh-panel class$="panel [[partyIslandOpen]]" name="party-island">
-      <sh-party-island tasks="{{tasks}}"></sh-party-island>
+      <sh-party-island tasks="{{partyIslandTasks}}"></sh-party-island>
     </sh-panel>
 
     <iron-pages class$="panel panel-modal [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
@@ -349,11 +326,24 @@
             type: String,
             value: ''
           },
+          mapTasks: {
+            type: Array,
+            value: [
+              { stage: 'one', completed: true, description: 'Take a picture of the stage' },
+              { stage: 'two', completed: true, description: 'Take a picture of Burr' },
+              { stage: 'three', completed: false, description: 'Take a picture a computer' },
+              { stage: 'four', completed: false, description: 'Take a picture of the floor' },
+              { stage: 'five', completed: false, description: 'Take a picture of a light' },
+              { stage: 'six', completed: false, description: 'Take a picture of a picture' },
+              { stage: 'seven', completed: false, description: 'Take a picture of a phone' },
+              { stage: 'eight', completed: false, description: 'Take a picture of a shoe' }
+            ]
+          },
           partyIslandOpen: {
             type: String,
             value: ''
           },
-          tasks: {
+          partyIslandTasks: {
             type: Array,
             value: [
               { description: 'Take a picture of the Red Hat logo' },
@@ -385,8 +375,8 @@
       navItemSelectedHandler(event) {
         this.navItem = event.detail.navItem;
 
-        if (event.detail.selectedTaskIndex !== undefined) {
-          this.selectedTask = this.get(['tasks', event.detail.selectedTaskIndex]);
+        if (event.detail.tasksArray && event.detail.selectedTaskIndex !== undefined) {
+          this.selectedTask = this.get([event.detail.tasksArray, event.detail.selectedTaskIndex]);
         }
 
         this.panelOpen = 'open';
@@ -401,18 +391,26 @@
         this.panelOpen = '';
       }
 
-      fireNavItemSelectedEvent(navItem) {
+      fireNavItemSelectedEvent(detail) {
         const customEvent = new CustomEvent('nav-item-selected', {
-          detail: {
-            navItem: navItem
-          }
+          detail: detail
         });
 
         this.dispatchEvent(customEvent);
       }
 
       capturePhoto() {
-        this.fireNavItemSelectedEvent('capture-photo');
+        this.fireNavItemSelectedEvent({
+          navItem: 'capture-photo'
+        });
+      }
+
+      openMapTask(event) {
+        this.fireNavItemSelectedEvent({
+          navItem: 'capture-photo',
+          tasksArray: 'mapTasks',
+          selectedTaskIndex: event.model.index
+        });
       }
 
       openPartyIsland() {
@@ -423,6 +421,14 @@
         if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo') {
           this.shCapturePhotoElement.reset();
         }
+      }
+
+      _computeIndexPlusOne(index) {
+        return index + 1;
+      }
+
+      _computeStageCompleted(completed) {
+        return completed ? 'stage--done' : '';
       }
     }
 
