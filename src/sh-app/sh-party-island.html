@@ -14,6 +14,12 @@
     <h1>Party Island</h1>
     <template is="dom-repeat" items="{{tasks}}" as="task" index-as="index">
       <div on-click="capturePhoto">
+        <template is="dom-if" if="[[!task.completed]]" restamp="true">
+          &#x2610;
+        </template>
+        <template is="dom-if" if="[[task.completed]]" restamp="true">
+          &#x2611;
+        </template>
         [[task.description]]
       </div>
     </template>

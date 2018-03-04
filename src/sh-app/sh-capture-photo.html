@@ -10,18 +10,31 @@
         height: 100%;
         background: #ccc;
       }
+
+      #imageInput {
+        display: none;
+      }
     </style>
 
     <h1>Capture Photo</h1>
     <p>[[task.description]]</p>
+    <button on-click="takePhoto">Take a Photo</button>
     <input type="file" id="imageInput" name="image" accept="image/*" />
     <div>
       <canvas id="canvas"></canvas>
     </div>
-    <template is="dom-if" if="[[loading]]" restamp="true">
-      Loading...
+    <template is="dom-if" if="[[uploading]]" restamp="true">
+      Uploading...
     </template>
-    <button on-click="upload">Upload Photo</button>
+    <template is="dom-if" if="[[canUpload]]" restamp="true">
+      <button on-click="upload" disabled$="[[uploading]]">Upload Photo</button>
+    </template>
+    <template is="dom-if" if="[[success]]" restamp="true">
+      Nice work! We have a match!
+    </template>
+    <template is="dom-if" if="[[error]]" restamp="true">
+      There was an error :(
+    </template>
   </template>
 
   <script>
@@ -29,7 +42,7 @@
       static get is() { return 'sh-capture-photo'; }
       static get properties() {
         return {
-          loading: {
+          uploading: {
             type: Boolean,
             value: false
           },
@@ -37,6 +50,10 @@
             type: Array,
             value: [],
             notify: true
+          },
+          canUpload: {
+            type: Boolean,
+            value: false
           },
           success: {
             type: Boolean,
@@ -46,8 +63,16 @@
             type: Boolean,
             value: false
           },
+          tasksArray: {
+            type: String,
+            value: ''
+          },
+          taskIndex: {
+            type: Number
+          },
           task: {
-            type: Object
+            type: Object,
+            notify: true
           }
         };
       }
@@ -67,6 +92,10 @@
       disconnectedCallback() {
         super.disconnectedCallback();
         this.imageInput.removeEventListener('change', this.imageInputOnChangeHandler);
+      }
+
+      takePhoto() {
+        this.imageInput.click();
       }
 
       imageInputOnChangeHandler(event) {
@@ -90,6 +119,8 @@
               self.canvas = self.shadowRoot.querySelector('canvas');
               self.canvas.parentNode.replaceChild(data, this.canvas);
               self.canvas = data;
+
+              this.canUpload = true;
             }, options);
           });
         }
@@ -111,10 +142,13 @@
           headers: headers
         });
 
-        this.loading = true;
+        this.uploading = true;
 
         Polymer.Async.timeOut.run(() => {
-          this.loading = false;
+          this.uploading = false;
+          this.canUpload = false;
+          this.success = true;
+          this.fireTaskCompleted();
           this.push('photos', data);
         }, 1500);
 
@@ -125,13 +159,26 @@
       reset() {
         this.loading = false;
         this.success = false;
+        this.canUpload = false;
         this.error = false;
-        this.task = null;
         this.imageInput.value = '';
 
         const canvas = this.shadowRoot.querySelector('canvas');
         const canvasContext = canvas.getContext('2d');
         canvasContext.clearRect(0, 0, 300, 600);
+      }
+
+      fireTaskCompleted() {
+        const customEvent = new CustomEvent('task-completed', {
+          detail: {
+            taskIndex: this.taskIndex,
+            tasksArray: this.tasksArray
+          },
+          bubbles: true,
+          composed: true
+        });
+
+        this.dispatchEvent(customEvent);
       }
     }
 
