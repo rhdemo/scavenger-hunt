@@ -46,12 +46,39 @@
             type: Number,
             // value: 3000
             value: 0
+          },
+          socketUrl: {
+            type: String,
+            value: () => {
+              return 'wss://scavenger-hunt-server-js-rh-search.1d35.starter-us-east-1.openshiftapps.com/game';
+            }
+          },
+          ws: {
+            type: Object,
+            value: null
+          },
+          socketClosed: {
+            type: Boolean,
+            value: false
+          },
+          reconnectTries: {
+            type: Number,
+            value: 0
+          },
+          maxReconnectTries: {
+            type: Number,
+            value: 10
+          },
+          retryInterval: {
+            type: Number,
+            value: 3000
           }
         };
       }
 
       connectedCallback() {
         super.connectedCallback();
+        this.connectToSocket();
 
         if (this.user) {
           return;
@@ -62,6 +89,61 @@
         Polymer.Async.timeOut.run(() => {
           this.page = 'main';
         }, this.timeout);
+      }
+
+      connectToSocket() {
+        this.ws = new WebSocket(this.socketUrl);
+
+        this.ws.onopen = this.onOpen.bind(this);
+        this.ws.onclose = this.onClose.bind(this);
+        this.ws.onmessage = this.onMessage.bind(this);
+      }
+
+      onOpen(event) {
+        this.socketClosed = false;
+        this.reconnectTries = 0;
+
+        const message = {
+          type: 'register'
+        };
+
+        this.ws.send(JSON.stringify(message));
+      }
+
+      onClose(event) {
+        this.socketClosed = true;
+
+        if (this.connectInterval) {
+          return;
+        }
+
+        this.connectInterval = setInterval(() => {
+          if (this.socketClosed && this.reconnectTries < this.maxReconnectTries) {
+            this.connectToSocket();
+            this.reconnectTries += 1;
+            return;
+          }
+
+          clearInterval(this.connectInterval);
+          this.connectInterval = null;
+          this.reconnectTries = 0;
+        }, this.retryInterval);
+      }
+
+      onMessage(event) {
+        const data = JSON.parse(event.data);
+
+        switch (data.type) {
+          case 'configuration':
+            this.configure(data);
+            break;
+          default:
+
+        }
+      }
+
+      configure(data) {
+        console.log(data);
       }
     }
 
