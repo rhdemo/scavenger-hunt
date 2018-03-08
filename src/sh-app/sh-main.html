@@ -24,7 +24,7 @@
         /* position: relative; */
         font-family: 'Montserrat', sans-serif;
         font-weight: 400;
-        --play-state: paused;
+        /* --play-state: play; */
       }
 
       .panel {
@@ -177,13 +177,13 @@
         width: 10vw;
         grid-column: 4;
         grid-row: 4;
-        animation: path 10s linear infinite alternate;
-        animation-play-state: var(--play-state);
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
         pointer-events: none;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
       }
 
       .user__picture {
@@ -207,6 +207,160 @@
         animation: shadow 1.4s ease infinite alternate;
       }
 
+
+      /* Movements */
+      .move-to-one  {
+        animation-name: path-to-one;
+        animation-duration: 1s;
+      }
+
+      .move-to-two {
+        transform: translate3d(-200%, 300%, 0);
+        animation-name: path-to-two;
+        animation-duration: 1.2s;
+      }
+
+      .move-to-three {
+        transform: translate3d(0%, 500%, 0);
+        animation-name: path-to-three;
+        animation-duration: .6s;
+      }
+
+      .move-to-four {
+        transform: translate3d(100%, 700%, 0);
+        animation-name: path-to-four;
+        animation-duration: 1.2s;
+      }
+
+      .move-to-five {
+        transform: translate3d(-200%, 1000%, 0);
+        animation-name: path-to-five;
+        animation-duration: 1.8s;
+      }
+
+      .move-to-six {
+        transform: translate3d(400%, 1300%, 0);
+        animation-name: path-to-six;
+        animation-duration: 1s;
+      }
+
+      .move-to-seven {
+        transform: translate3d(400%, 1800%, 0);
+        animation-name: path-to-seven;
+        animation-duration: .8s;
+      }
+
+      .move-to-eight {
+        transform: translate3d(200%, 2000%, 0);
+        animation-name: path-to-eight;
+        animation-duration: 2.2s;
+      }
+
+     @keyframes path-to-one {
+        60% {
+          transform: translate3d(0, 300%, 0);
+        }
+        100% {
+          transform: translate3d(-200%, 300%, 0);
+        }
+      }
+
+      @keyframes path-to-two {
+        0 {
+          transform: translate3d(-200%, 300%, 0);
+        }
+        16% {
+          transform: translate3d(-300%, 300%, 0);
+        }
+        48% {
+          transform: translate3d(-300%, 500%, 0);
+        }
+        100% {
+          transform: translate3d(0%, 500%, 0);
+        }
+      }
+
+      @keyframes path-to-three {
+        0 {
+          transform: translate3d(0%, 500%, 0);
+        }
+        33% {
+          transform: translate3d(100%, 500%, 0);
+        }
+        100% {
+          transform: translate3d(100%, 700%, 0);
+        }
+      }
+
+      @keyframes path-to-four {
+        0 {
+          transform: translate3d(100%, 700%, 0);
+        }
+        16% {
+          transform: translate3d(100%, 800%, 0);
+        }
+        64% {
+          transform: translate3d(-200%, 800%, 0);
+        }
+        100% {
+          transform: translate3d(-200%, 1000%, 0);
+        }
+      }
+
+      @keyframes path-to-five {
+        0 {
+          transform: translate3d(-200%, 1000%, 0);
+        }
+        33% {
+          transform: translate3d(-200%, 1300%, 0);
+        }
+        100% {
+          transform: translate3d(400%, 1300%, 0);
+        }
+      }
+
+      @keyframes path-to-six {
+        0 {
+          transform: translate3d(400%, 1300%, 0);
+        }
+        100% {
+          transform: translate3d(400%, 1800%, 0);
+        }
+      }
+
+      @keyframes path-to-seven {
+        0 {
+          transform: translate3d(400%, 1800%, 0);
+        }
+        50% {
+          transform: translate3d(200%, 1800%, 0);
+        }
+        100% {
+          transform: translate3d(200%, 2000%, 0);
+        }
+      }
+
+      @keyframes path-to-eight {
+        0% {
+          transform: translate3d(200%, 2000%, 0);
+        }
+        48% {
+          transform: translate3d(200%, 2600%, 0);
+        }
+        64% {
+          transform: translate3d(400%, 2600%, 0);
+          z-index: 0;
+        }
+        72% {
+          transform: translate3d(400%, 2700%, 0);
+          z-index: 700;
+        }
+        100% {
+          transform: translate3d(100%, 2700%, 0);
+          z-index: 700;
+        }
+      }
+
       @keyframes hover {
         100% {
           transform: translateY(-20%);
@@ -223,57 +377,6 @@
         }
       }
 
-      @keyframes path {
-        0 {}
-
-        6% {
-          transform: translate3d(0, 300%, 0);
-        }
-        12% {
-          transform: translate3d(-300%, 300%, 0);
-        }
-        16% {
-          transform: translate3d(-300%, 500%, 0);
-        }
-        24% {
-          transform: translate3d(100%, 500%, 0);
-        }
-        30% {
-          transform: translate3d(100%, 800%, 0);
-        }
-        36% {
-          transform: translate3d(-200%, 800%, 0);
-        }
-        46% {
-          transform: translate3d(-200%, 1300%, 0);
-        }
-        58% {
-          transform: translate3d(400%, 1300%, 0);
-        }
-        68% {
-          transform: translate3d(400%, 1800%, 0);
-        }
-        72% {
-          transform: translate3d(200%, 1800%, 0);
-        }
-        88% {
-          transform: translate3d(200%, 2600%, 0);
-        }
-        92% {
-          transform: translate3d(400%, 2600%, 0);
-          z-index: 0;
-        }
-
-        94% {
-          transform: translate3d(400%, 2700%, 0);
-          z-index: 700;
-        }
-
-        100% {
-          transform: translate3d(100%, 2700%, 0);
-          z-index: 700;
-        }
-      }
     </style>
 
     <app-localstorage-document key="photos" data="{{photos}}"></app-localstorage-document>
@@ -281,7 +384,7 @@
     <sh-navigation></sh-navigation>
 
     <div class="map">
-      <div class="user">
+      <div class="user move-to-eight">
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
