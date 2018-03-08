@@ -72,9 +72,8 @@
       }
 
       .party-island {
-        grid-column: 9;
-        grid-row: 7 / 11;
-        background-color: rgba(0, 0, 0, .5);
+        grid-column: 8/11;
+        grid-row: 8 / 10;
       }
 
       .stage {
@@ -256,7 +255,22 @@
         animation-duration: 2.2s;
       }
 
-     @keyframes path-to-one {
+      .move-to-party {
+        transform: translate3d(500%, 200%, 0);
+        animation-name: path-to-paty;
+        animation-duration: 1s;
+      }
+
+      @keyframes path-to-paty {
+        0 {
+          transform: translate3d(500%, 200%, 0);
+        }
+        100% {
+          transform: translate3d(500%, 500%, 0);
+        }
+      }
+
+      @keyframes path-to-one {
         60% {
           transform: translate3d(0, 300%, 0);
         }
@@ -384,13 +398,12 @@
     <sh-navigation></sh-navigation>
 
     <div class="map">
-      <div class$="user [[lastCompletedTask]]">
+      <div class="user move-to-party">
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
       <div class="castle"></div>
       <button class="party-island" on-click="openPartyIsland">
-        Party! 🎉
       </button>
       <template is="dom-repeat" items="{{mapTasks}}" as="mapTask" index-as="index">
         <div class$="stage stage--[[mapTask.stage]] [[_computeStageCompleted(mapTask.completed)]]">
