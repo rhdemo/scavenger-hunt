@@ -384,7 +384,7 @@
     <sh-navigation></sh-navigation>
 
     <div class="map">
-      <div class="user move-to-eight">
+      <div class$="user [[lastCompletedTask]]">
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
@@ -444,7 +444,8 @@
               { stage: 'six', completed: false, description: 'Take a picture of a picture' },
               { stage: 'seven', completed: false, description: 'Take a picture of a phone' },
               { stage: 'eight', completed: false, description: 'Take a picture of a shoe' }
-            ]
+            ],
+            observer: '_computeUserClass'
           },
           partyIslandOpen: {
             type: String,
@@ -463,6 +464,10 @@
           },
           selectedTask: {
             type: Object
+          },
+          lastCompletedTask: {
+            type: String,
+            value: ''
           }
         };
       }
@@ -546,6 +551,18 @@
 
       _computeStageCompleted(completed) {
         return completed ? 'stage--done' : '';
+      }
+
+      _computeUserClass() {
+        let lastCompletedTask = '';
+
+        this.mapTasks.forEach(task => {
+          if (task.completed) {
+            lastCompletedTask = task.stage;
+          }
+        });
+
+        this.lastCompletedTask = `move-to-${lastCompletedTask}`;
       }
     }
 
