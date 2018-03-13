@@ -1,0 +1,125 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<dom-module id="sh-service">
+  <script>
+    class ShService extends Polymer.Element {
+      static get is() { return 'sh-service'; }
+      static get properties() {
+        return {
+          user: {
+            type: Object,
+            value: null,
+            notify: true
+          },
+          ws: {
+            type: Object,
+            value: null
+          },
+          socketUrl: {
+            type: String,
+            value: () => {
+              return 'ws://localhost:8080/game';
+            }
+          },
+          socketClosed: {
+            type: Boolean,
+            value: false
+          },
+          reconnectTries: {
+            type: Number,
+            value: 0
+          },
+          maxReconnectTries: {
+            type: Number,
+            value: 10
+          },
+          retryInterval: {
+            type: Number,
+            value: 3000
+          }
+        };
+      }
+
+      constructor() {
+        super();
+
+        this.onOpen = this.onOpen.bind(this);
+        this.onClose = this.onClose.bind(this);
+        this.onMessage = this.onMessage.bind(this);
+      }
+
+      connectToSocket() {
+        this.ws = new WebSocket(this.socketUrl);
+
+        this.ws.onopen = this.onOpen;
+        this.ws.onclose = this.onClose;
+        this.ws.onmessage = this.onMessage;
+      }
+
+      onOpen(event) {
+        this.socketClosed = false;
+        this.reconnectTries = 0;
+
+        const message = {
+          type: 'connection'
+        };
+
+        this.sendMessage(message);
+      }
+
+      onClose(event) {
+        this.socketClosed = true;
+
+        if (this.connectInterval) {
+          return;
+        }
+
+        this.connectInterval = setInterval(() => {
+          if (this.socketClosed && this.reconnectTries < this.maxReconnectTries) {
+            this.connectToSocket();
+            this.reconnectTries += 1;
+            return;
+          }
+
+          clearInterval(this.connectInterval);
+          this.connectInterval = null;
+          this.reconnectTries = 0;
+        }, this.retryInterval);
+      }
+
+      sendMessage(message) {
+        this.ws.send(JSON.stringify(message));
+      }
+
+      onMessage(event) {
+        const data = JSON.parse(event.data);
+
+        switch (data.type) {
+          case 'configuration':
+            this.configure(data);
+            break;
+          default:
+        }
+      }
+
+      configure(data) {
+        this.set('user', {
+          playerId: data.playerId,
+          username: data.username
+        });
+
+        const customEvent = new CustomEvent('user-configured', {
+          detail: {
+            user: this.user
+          },
+          bubbles: true,
+          composed: true
+        });
+
+        this.dispatchEvent(customEvent);
+      }
+    }
+
+    window.customElements.define(ShService.is, ShService);
+  </script>
+</dom-module>

@@ -424,7 +424,13 @@
         <sh-leaderboard></sh-leaderboard>
       </sh-panel>
       <sh-panel name="capture-photo">
-        <sh-capture-photo photos="{{photos}}" tasks-array="{{tasksArray}}" task="{{selectedTask}}" task-index="{{selectedTaskIndex}}"></sh-capture-photo>
+        <sh-capture-photo
+          user="{{user}}"
+          photos="{{photos}}"
+          tasks-array="{{tasksArray}}"
+          task="{{selectedTask}}"
+          task-index="{{selectedTaskIndex}}">
+        </sh-capture-photo>
       </sh-panel>
     </iron-pages>
   </template>
@@ -481,6 +487,9 @@
           lastCompletedTask: {
             type: String,
             value: ''
+          },
+          user: {
+            type: Object
           }
         };
       }

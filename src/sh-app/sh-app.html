@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 
+<link rel="import" href="./sh-service.html">
 <link rel="import" href="./sh-splash.html">
 <link rel="import" href="./sh-main.html">
 
@@ -16,12 +17,18 @@
         height: 100%;
       }
     </style>
+
+    <sh-service
+      id="service"
+      user="{{user}}">
+    </sh-service>
+
     <iron-pages
       selected="[[page]]"
       attr-for-selected="name"
       role="main">
       <sh-splash name="splash"></sh-splash>
-      <sh-main name="main"></sh-main>
+      <sh-main name="main" user="{{user}}"></sh-main>
     </iron-pages>
   </template>
 
@@ -36,114 +43,34 @@
         return {
           page: {
             type: String,
-            value: 'main'
+            value: 'splash'
           },
           user: {
             type: Object,
             value: null
-          },
-          timeout: {
-            type: Number,
-            // value: 3000
-            value: 0
-          },
-          socketUrl: {
-            type: String,
-            value: () => {
-              return 'wss://scavenger-hunt-server-js-rh-search.1d35.starter-us-east-1.openshiftapps.com/game';
-            }
-          },
-          ws: {
-            type: Object,
-            value: null
-          },
-          socketClosed: {
-            type: Boolean,
-            value: false
-          },
-          reconnectTries: {
-            type: Number,
-            value: 0
-          },
-          maxReconnectTries: {
-            type: Number,
-            value: 10
-          },
-          retryInterval: {
-            type: Number,
-            value: 3000
           }
         };
+      }
+
+      constructor() {
+        super();
+
+        this.userConfiguredHandler = this.userConfiguredHandler.bind(this);
+        this.addEventListener('user-configured', this.userConfiguredHandler);
+        this.addEventListener('send-socket-message', this.sendSocketMessage);
       }
 
       connectedCallback() {
         super.connectedCallback();
-        this.connectToSocket();
-
-        if (this.user) {
-          return;
-        }
-
-        this.page = 'splash';
-
-        Polymer.Async.timeOut.run(() => {
-          this.page = 'main';
-        }, this.timeout);
+        this.$.service.connectToSocket();
       }
 
-      connectToSocket() {
-        this.ws = new WebSocket(this.socketUrl);
-
-        this.ws.onopen = this.onOpen.bind(this);
-        this.ws.onclose = this.onClose.bind(this);
-        this.ws.onmessage = this.onMessage.bind(this);
+      userConfiguredHandler(event) {
+        this.page = 'main';
       }
 
-      onOpen(event) {
-        this.socketClosed = false;
-        this.reconnectTries = 0;
-
-        const message = {
-          type: 'register'
-        };
-
-        this.ws.send(JSON.stringify(message));
-      }
-
-      onClose(event) {
-        this.socketClosed = true;
-
-        if (this.connectInterval) {
-          return;
-        }
-
-        this.connectInterval = setInterval(() => {
-          if (this.socketClosed && this.reconnectTries < this.maxReconnectTries) {
-            this.connectToSocket();
-            this.reconnectTries += 1;
-            return;
-          }
-
-          clearInterval(this.connectInterval);
-          this.connectInterval = null;
-          this.reconnectTries = 0;
-        }, this.retryInterval);
-      }
-
-      onMessage(event) {
-        const data = JSON.parse(event.data);
-
-        switch (data.type) {
-          case 'configuration':
-            this.configure(data);
-            break;
-          default:
-
-        }
-      }
-
-      configure(data) {
-        console.log(data);
+      sendSocketMessage(event) {
+        this.$.service.sendMessage(event.detail.data);
       }
     }
 
