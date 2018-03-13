@@ -135,7 +135,7 @@
       }
 
       upload() {
-        let image = this.canvas.toDataURL('image/jpeg');
+        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
         let data = {
           type: 'picture',
           taskId: '123456789abcdefghi',
