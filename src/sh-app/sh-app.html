@@ -20,7 +20,9 @@
 
     <sh-service
       id="service"
-      user="{{user}}">
+      user="{{user}}"
+      party-island-tasks="{{partyIslandTasks}}"
+      last-score="{{lastScore}}">
     </sh-service>
 
     <iron-pages
@@ -28,7 +30,12 @@
       attr-for-selected="name"
       role="main">
       <sh-splash name="splash"></sh-splash>
-      <sh-main name="main" user="{{user}}"></sh-main>
+      <sh-main
+        name="main"
+        user="{{user}}"
+        party-island-tasks="{{partyIslandTasks}}"
+        last-score="{{lastScore}}">
+      </sh-main>
     </iron-pages>
   </template>
 
@@ -48,6 +55,13 @@
           user: {
             type: Object,
             value: null
+          },
+          partyIslandTasks: {
+            type: Array,
+            value: []
+          },
+          lastScore: {
+            type: Object
           }
         };
       }
