@@ -7,23 +7,79 @@
   <template>
     <style>
       :host {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        background: #ccc;
+        display: block;
+        min-height: 100%;
+        background: #ececec;
+        padding: 2rem;
+        text-align: center;
       }
 
       #imageInput {
         display: none;
       }
+
+      h1 {
+        margin: 0;
+        font-family: 'bangers', sans-serif;
+      }
+
+       .header {
+        text-align: center;
+      }
+
+      .header img {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+      .header span {
+        border-radius: 50%;
+        padding: 1rem;
+        display: inline-block;
+        background: white;
+        border: 1px solid rgba(0,0,0,.2);
+        height: 2rem;
+        width: 2rem;
+      }
+
+      .challange {
+        background-color: white;
+        padding: 2rem;
+        margin-top: 1rem;
+      }
+
+      .challange__button {
+        background-color: green;
+        color: white;
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        border-radius: 400px;
+
+      }
+
     </style>
 
     <sh-service id="service"></sh-service>
 
-    <h1>Capture Photo</h1>
-    <p>[[task.description]]</p>
-    <button on-click="takePhoto">Take a Photo</button>
-    <input type="file" id="imageInput" name="image" accept="image/*" />
+
+    <div class="header">
+        <span>
+          <img src="/images/coin.svg" alt="Leaderboard: Icon of a trpphy">
+        </span>
+  
+  
+        <h1>Challenge 1</h1>
+        <div class="challange">
+          <p>[[task.description]]</p>
+          <button class="challange__button" on-click="takePhoto">Take a Photo</button>
+          <input type="file" id="imageInput" name="image" accept="image/*" />
+      
+        </div>
+      </div>
+
+   
+
     <div>
       <canvas id="canvas"></canvas>
     </div>
