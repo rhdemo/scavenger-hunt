@@ -13,6 +13,7 @@
   <template>
     <style>
       @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+      @import url('https://fonts.googleapis.com/css?family=bangers');
       /*
         Loader indicator
       */
@@ -424,7 +425,14 @@
         <sh-leaderboard></sh-leaderboard>
       </sh-panel>
       <sh-panel name="capture-photo">
-        <sh-capture-photo photos="{{photos}}" tasks-array="{{tasksArray}}" task="{{selectedTask}}" task-index="{{selectedTaskIndex}}"></sh-capture-photo>
+        <sh-capture-photo
+          user="{{user}}"
+          photos="{{photos}}"
+          tasks-array="{{tasksArray}}"
+          task="{{selectedTask}}"
+          task-index="{{selectedTaskIndex}}"
+          last-score="{{lastScore}}">
+        </sh-capture-photo>
       </sh-panel>
     </iron-pages>
   </template>
@@ -466,11 +474,7 @@
           },
           partyIslandTasks: {
             type: Array,
-            value: [
-              { description: 'Take a picture of the Red Hat logo', completed: false },
-              { description: 'Take a picture of a person smiling', completed: false },
-              { description: 'Take a picture of Tux', completed: false }
-            ]
+            value: []
           },
           selectedTaskIndex: {
             type: Number,
@@ -481,6 +485,12 @@
           lastCompletedTask: {
             type: String,
             value: ''
+          },
+          user: {
+            type: Object
+          },
+          lastScore: {
+            type: Object
           }
         };
       }

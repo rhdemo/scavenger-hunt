@@ -1,4 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="./sh-service.html">
 <link rel="import" href="./sh-loadimage.html">
 
 <dom-module id="sh-capture-photo">
@@ -15,6 +17,8 @@
         display: none;
       }
     </style>
+
+    <sh-service id="service"></sh-service>
 
     <h1>Capture Photo</h1>
     <p>[[task.description]]</p>
@@ -73,6 +77,19 @@
           task: {
             type: Object,
             notify: true
+          },
+          exifData: {
+            type: Object
+          },
+          user: {
+            type: Object
+          },
+          currentPhoto: {
+            type: Object
+          },
+          lastScore: {
+            type: Object,
+            observer: 'lastScoreChanged'
           }
         };
       }
@@ -112,6 +129,7 @@
 
           loadImage.parseMetaData(file, data => {
             if (data.exif) {
+              self.exifData = data.exif.getAll();
               options['orientation'] = data.exif.get('Orientation');
             }
 
@@ -127,33 +145,43 @@
       }
 
       upload() {
-        let image = this.canvas.toDataURL('image/jpeg');
+        const UUID = this.shadowRoot.querySelector('#service').generateUUID();
+
+        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
         let data = {
-          created: new Date(),
-          image: image
+          type: 'picture',
+          taskId: this.task.id,
+          picture: image,
+          playerId: this.user.playerId,
+          transactionId: `${this.user.playerId}_${this.task.id}_${UUID}`,
+          metadata: {
+            exifData: this.exifData,
+            userAgent: navigator.userAgent,
+            created: new Date()
+          }
         };
-
-        let body = JSON.stringify(data);
-
-        let headers = new Headers({ 'Content-Type': 'application/json' });
-        let request = new Request('http://localhost:8085/upload', {
-          method: 'POST',
-          body: body,
-          headers: headers
-        });
 
         this.uploading = true;
 
-        Polymer.Async.timeOut.run(() => {
-          this.uploading = false;
-          this.canUpload = false;
-          this.success = true;
-          this.fireTaskCompleted();
-          this.push('photos', data);
-        }, 1500);
+        const customEvent = new CustomEvent('send-socket-message', {
+          detail: {
+            data: data
+          },
+          bubbles: true,
+          composed: true
+        });
 
-        // fetch(request)
-        //   .then(data => console.log(data));
+        this.currentPhoto = data;
+        this.push('photos', this.currentPhoto);
+        this.dispatchEvent(customEvent);
+
+        // Polymer.Async.timeOut.run(() => {
+        //   this.uploading = false;
+        //   this.canUpload = false;
+        //   this.success = true;
+        //   this.fireTaskCompleted();
+        //   this.push('photos', data);
+        // }, 1500);
       }
 
       reset() {
@@ -161,6 +189,7 @@
         this.success = false;
         this.canUpload = false;
         this.error = false;
+        this.exifData = null;
         this.imageInput.value = '';
 
         const canvas = this.shadowRoot.querySelector('canvas');
@@ -179,6 +208,24 @@
         });
 
         this.dispatchEvent(customEvent);
+      }
+
+      lastScoreChanged(data) {
+        if (data.transactionId === this.currentPhoto.transactionId) {
+          let index;
+
+          this.photos.forEach((photo, index) => {
+            if (photo.transactionId === data.transactionId) {
+              this.set(`photos.${index}.score`, data.score);
+            }
+          });
+
+          this.uploading = false;
+          this.canUpload = false;
+          this.success = true;
+          this.currentPhoto = null;
+          this.fireTaskCompleted()
+        }
       }
     }
 
