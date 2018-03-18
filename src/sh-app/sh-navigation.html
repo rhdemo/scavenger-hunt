@@ -71,9 +71,9 @@
         </a>
       </li>
       <li>
-          <img src="/images/coin.svg" alt="Point: Icon of a coin"> x 2542</li>
+          <img src="/images/coin.svg" alt="Point: Icon of a coin"> x [[user.score]]</li>
         <li>
-  
+
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="profile">
           <img src="/images/andres.jpg" alt="avatar of andres galante" class="user">
@@ -85,6 +85,13 @@
   <script>
     class ShNavigation extends Polymer.Element {
       static get is() { return 'sh-navigation'; }
+      static get properties() {
+        return {
+          user: {
+            type: Object
+          }
+        };
+      }
 
       fireNavigationEvent(event) {
         event.preventDefault();

@@ -127,7 +127,8 @@
       configure(data) {
         this.set('user', {
           playerId: data.playerId,
-          username: data.username
+          username: data.username,
+          score: 0
         });
 
         // for local development
@@ -155,6 +156,8 @@
       }
 
       updateScore(data) {
+        this.user.score += data.score;
+        this.notifyPath('user.score');
         this.set('lastScore', data);
       }
 
