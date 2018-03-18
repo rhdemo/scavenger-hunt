@@ -33,6 +33,10 @@
     <template is="dom-if" if="[[canUpload]]" restamp="true">
       <button on-click="upload" disabled$="[[uploading]]">Upload Photo</button>
     </template>
+    <template is="dom-if" if="[[failure]]" restamp="true">
+      <p>Not even close!</p>
+      <button on-click="reset">Try again</button>
+    </template>
     <template is="dom-if" if="[[success]]" restamp="true">
       Nice work! We have a match!
     </template>
@@ -60,6 +64,10 @@
             value: false
           },
           success: {
+            type: Boolean,
+            value: false
+          },
+          failure: {
             type: Boolean,
             value: false
           },
@@ -174,19 +182,13 @@
         this.currentPhoto = data;
         this.push('photos', this.currentPhoto);
         this.dispatchEvent(customEvent);
-
-        // Polymer.Async.timeOut.run(() => {
-        //   this.uploading = false;
-        //   this.canUpload = false;
-        //   this.success = true;
-        //   this.fireTaskCompleted();
-        //   this.push('photos', data);
-        // }, 1500);
       }
 
       reset() {
         this.loading = false;
         this.success = false;
+        this.failure = false;
+        this.uploading = false;
         this.canUpload = false;
         this.error = false;
         this.exifData = null;
@@ -200,6 +202,7 @@
       fireTaskCompleted() {
         const customEvent = new CustomEvent('task-completed', {
           detail: {
+            taskId: this.task.id,
             taskIndex: this.taskIndex,
             tasksArray: this.tasksArray
           },
@@ -211,6 +214,14 @@
       }
 
       lastScoreChanged(data) {
+        this.uploading = false;
+        this.canUpload = false;
+
+        if (data.score === 0) {
+          this.failure = true;
+          return;
+        }
+
         if (data.transactionId === this.currentPhoto.transactionId) {
           let index;
 
@@ -220,8 +231,6 @@
             }
           });
 
-          this.uploading = false;
-          this.canUpload = false;
           this.success = true;
           this.currentPhoto = null;
           this.fireTaskCompleted()
