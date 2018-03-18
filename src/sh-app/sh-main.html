@@ -97,42 +97,42 @@
       stage 8 = 50
       */
 
-      .stage--one {
+      .stage--1 {
         grid-column: 2;
         grid-row: 7;
       }
 
-      .stage--two {
+      .stage--2 {
         grid-column: 4;
         grid-row: 9;
       }
 
-      .stage--three {
+      .stage--3 {
         grid-column: 5;
         grid-row: 11;
       }
 
-      .stage--four {
+      .stage--4 {
         grid-column: 2;
         grid-row: 14;
       }
 
-      .stage--five {
+      .stage--5 {
         grid-column: 8;
         grid-row: 17;
       }
 
-      .stage--six {
+      .stage--6 {
         grid-column: 8;
         grid-row: 22;
       }
 
-      .stage--seven {
+      .stage--7 {
         grid-column: 6;
         grid-row: 24;
       }
 
-      .stage--eight {
+      .stage--8 {
         grid-column: 4 / 7;
         grid-row: 29 / 31;
         background: none;
@@ -204,48 +204,48 @@
 
 
       /* Movements */
-      .move-to-one  {
+      .move-to-1  {
         animation-name: path-to-one;
         animation-duration: 1s;
       }
 
-      .move-to-two {
+      .move-to-2 {
         transform: translate3d(-200%, 300%, 0);
         animation-name: path-to-two;
         animation-duration: 1.2s;
       }
 
-      .move-to-three {
+      .move-to-3 {
         transform: translate3d(0%, 500%, 0);
         animation-name: path-to-three;
         animation-duration: .6s;
       }
 
-      .move-to-four {
+      .move-to-4 {
         transform: translate3d(100%, 700%, 0);
         animation-name: path-to-four;
         animation-duration: 1.2s;
       }
 
-      .move-to-five {
+      .move-to-5 {
         transform: translate3d(-200%, 1000%, 0);
         animation-name: path-to-five;
         animation-duration: 1.8s;
       }
 
-      .move-to-six {
+      .move-to-6 {
         transform: translate3d(400%, 1300%, 0);
         animation-name: path-to-six;
         animation-duration: 1s;
       }
 
-      .move-to-seven {
+      .move-to-7 {
         transform: translate3d(400%, 1800%, 0);
         animation-name: path-to-seven;
         animation-duration: .8s;
       }
 
-      .move-to-eight {
+      .move-to-8 {
         transform: translate3d(200%, 2000%, 0);
         animation-name: path-to-eight;
         animation-duration: 2.2s;
@@ -391,10 +391,10 @@
 
     <app-localstorage-document key="photos" data="{{photos}}"></app-localstorage-document>
 
-    <sh-navigation></sh-navigation>
+    <sh-navigation user="{{user}}"></sh-navigation>
 
     <div class="map">
-      <div class="user move-to-party">
+      <div class$="user move-to-[[lastCompletedTask]]">
         <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
         <div class="user__shadow"></div>
       </div>
@@ -451,16 +451,7 @@
           },
           mapTasks: {
             type: Array,
-            value: [
-              { stage: 'one', completed: true, description: 'Take a picture of the stage' },
-              { stage: 'two', completed: true, description: 'Take a picture of Burr' },
-              { stage: 'three', completed: false, description: 'Take a picture a computer' },
-              { stage: 'four', completed: false, description: 'Take a picture of the floor' },
-              { stage: 'five', completed: false, description: 'Take a picture of a light' },
-              { stage: 'six', completed: false, description: 'Take a picture of a picture' },
-              { stage: 'seven', completed: false, description: 'Take a picture of a phone' },
-              { stage: 'eight', completed: false, description: 'Take a picture of a shoe' }
-            ],
+            value: [],
             observer: '_computeUserClass'
           },
           partyIslandOpen: {
@@ -478,8 +469,8 @@
             type: Object
           },
           lastCompletedTask: {
-            type: String,
-            value: ''
+            type: Number,
+            value: 0
           },
           user: {
             type: Object
@@ -532,6 +523,7 @@
 
       taskCompleted(event) {
         this.set(`${event.detail.tasksArray}.${event.detail.taskIndex}.completed`, true);
+        this._computeUserClass();
       }
 
       fireNavItemSelectedEvent(detail) {
@@ -549,6 +541,14 @@
       }
 
       openMapTask(event) {
+        if (event.model.mapTask.stage !== this.lastCompletedTask + 1) {
+          return;
+        }
+
+        if (this.lastCompletedTask === this.mapTasks.length) {
+          return;
+        }
+
         this.fireNavItemSelectedEvent({
           navItem: 'capture-photo',
           tasksArray: 'mapTasks',
@@ -575,15 +575,11 @@
       }
 
       _computeUserClass() {
-        let lastCompletedTask = '';
-
         this.mapTasks.forEach(task => {
           if (task.completed) {
-            lastCompletedTask = task.stage;
+            this.lastCompletedTask = task.stage;
           }
         });
-
-        this.lastCompletedTask = `move-to-${lastCompletedTask}`;
       }
     }
 
