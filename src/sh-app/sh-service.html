@@ -124,15 +124,17 @@
         });
 
         // for local development
-        if (!data.partyIslandTasks) {
-          data.partyIslandTasks = [
+        if (!data.tasks) {
+          data.tasks = [
             {"id":"261a6403-4812-414a-87dd-28170434b878","description":"Take a picture of the Red Hat logo","completed":false},
             {"id":"af463252-42e0-4956-9a63-b03cc5a0e145","description":"Take a picture of a person smiling","completed":false},
             {"id":"1632ad08-adcb-41a5-a087-2c2cbd8c839f","description":"Take a picture of Tux","completed":false}
           ];
         }
 
-        this.set('partyIslandTasks', data.partyIslandTasks);
+        const tasks = Object.keys(data.tasks).map(key => data.tasks[key]);
+
+        this.set('partyIslandTasks', tasks.filter(task => task.type === 'partyisland'));
 
         const customEvent = new CustomEvent('user-configured', {
           detail: {
