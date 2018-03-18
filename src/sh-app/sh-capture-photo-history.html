@@ -6,9 +6,164 @@
       :host {
         display: block;
       }
+
+      h2 {
+        margin: 0 -2rem;
+        padding: .3rem 2rem .3rem 2rem;
+        font-size: .8rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 0, 0, .2);
+        border-top: 1px solid rgba(0, 0, 0, .2);
+        background-color: black;
+        color: #ececec;
+        line-height: 1;
+        position: sticky;
+        top: 0;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+        margin: 0 -2rem;
+      }
+
+      li {
+        display: flex;
+        align-items: flex-start;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+      }
+      
+      img {
+        display: block;
+        width: 3rem;
+        height: 3rem;
+        margin-right: .5rem;
+        border: 1px solid rgba(0, 0, 0, .2);
+        background-color: white;
+        padding: 2px;
+      }
+
+      .item__info {
+        flex: 1;
+      }
+
+      button {
+        background: #ccc;
+        border-radius: 100rem;
+        padding: .5rem 1rem;
+        border: none;
+      }
+      
+      h3, time, p {
+        margin: 0;
+        font-size: 1rem;
+        word-break: break-all;
+      }
+
+      time, p {
+        font-size: .8rem;
+      }
+      
     </style>
 
     <h2>Capture photo history</h2>
+
+    <ul>
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Task here</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+      
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>      
+ 
+ 
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+      
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>      
+ 
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>
+      
+      <li>
+          <img src="http://via.placeholder.com/50x50" alt="">
+          <div class="item__info">
+            <h3>Picture of Burr</h3>
+            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
+            <p>15 points</p>
+          </div>
+          <button>Delete</button>
+      </li>      
+ 
+    </ul>
+
+   
     <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
       <div>
         <div>
