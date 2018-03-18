@@ -22,7 +22,8 @@
       id="service"
       user="{{user}}"
       party-island-tasks="{{partyIslandTasks}}"
-      last-score="{{lastScore}}">
+      last-score="{{lastScore}}"
+      leaders="{{leaders}}">
     </sh-service>
 
     <iron-pages
@@ -34,7 +35,8 @@
         name="main"
         user="{{user}}"
         party-island-tasks="{{partyIslandTasks}}"
-        last-score="{{lastScore}}">
+        last-score="{{lastScore}}"
+        leaders="{{leaders}}">
       </sh-main>
     </iron-pages>
   </template>
@@ -62,6 +64,9 @@
           },
           lastScore: {
             type: Object
+          },
+          leaders: {
+            type: Array
           }
         };
       }

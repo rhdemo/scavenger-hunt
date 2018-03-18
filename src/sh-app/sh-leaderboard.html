@@ -132,15 +132,15 @@
     </p>
     </div>
 
-    <h2>Top 100</h2>
+    <h2>Top [[leaders.length]]</h2>
     <ol>
       <template is="dom-repeat" items="[[leaders]]" as="leader" index-as="index">
         <li>
           <span class="leaderboard__position"> [[_computePosition(index)]]
             <sup>[[_computeSuffix(index, 1)]]</sup>
           </span>
-          <img src$="[[leader.profile_photo]]" alt$="Avatar of [[leader.username]]">
-          <span class="leaderboard__username">[[leader.username]]</span>
+          <img src="/images/andres.jpg" alt$="Avatar of [[leader.name]]">
+          <span class="leaderboard__username">[[leader.name]]</span>
         </li>
       </template>
     </ol>
@@ -152,21 +152,7 @@
       static get properties() {
         return {
           leaders: {
-            type: Array,
-            value: function () {
-              let leaders = [];
-
-              for (let i = 0; i < 100; i++) {
-                let leader = {
-                  username: generateUsername(),
-                  profile_photo: '/images/andres.jpg'
-                };
-
-                leaders.push(leader);
-              }
-
-              return leaders;
-            }
+            type: Array
           }
         };
       }

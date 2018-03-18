@@ -45,6 +45,10 @@
           lastScore: {
             type: Object,
             notify: true
+          },
+          leaders: {
+            type: Array,
+            notify: true
           }
         };
       }
@@ -113,6 +117,9 @@
             this.updateScore(data);
             break;
 
+          case 'leaderboard':
+            this.updateLeaderboard(data);
+
           default:
         }
       }
@@ -149,6 +156,10 @@
 
       updateScore(data) {
         this.set('lastScore', data);
+      }
+
+      updateLeaderboard(data) {
+        this.set('leaders', data.scores);
       }
 
       generateUUID() {
