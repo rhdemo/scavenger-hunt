@@ -20,7 +20,8 @@
             value: () => {
               switch (location.hostname) {
                 case 'scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com':
-                  return 'wss://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/game';
+                  // return 'wss://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/game';
+                  return 'ws://scavenger-hunt-microservice-plain-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/game';
                   break;
                 default:
                   return 'ws://localhost:8080/game';
