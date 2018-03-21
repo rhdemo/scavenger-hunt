@@ -33,11 +33,11 @@
         padding: 1rem 2rem;
         border-bottom: 1px solid rgba(0, 0, 0, .1);
       }
-      
+
       img {
         display: block;
         width: 3rem;
-        height: 3rem;
+        /* height: 3rem; */
         margin-right: .5rem;
         border: 1px solid rgba(0, 0, 0, .2);
         background-color: white;
@@ -54,7 +54,7 @@
         padding: .5rem 1rem;
         border: none;
       }
-      
+
       h3, time, p {
         margin: 0;
         font-size: 1rem;
@@ -64,116 +64,28 @@
       time, p {
         font-size: .8rem;
       }
-      
+
     </style>
 
     <h2>Capture photo history</h2>
 
-    <ul>
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Task here</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-      
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>      
- 
- 
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-      
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>      
- 
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>
-      
-      <li>
-          <img src="http://via.placeholder.com/50x50" alt="">
-          <div class="item__info">
-            <h3>Picture of Burr</h3>
-            <time datetime="2001-05-18T19:00">May 15, 7pm</time>
-            <p>15 points</p>
-          </div>
-          <button>Delete</button>
-      </li>      
- 
-    </ul>
-
-   
-    <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
-      <div>
-        <div>
-          <img src$="[[photo.image]]">
-        </div>
-        <div>
-          Submitted at [[photo.created]]
-        </div>
-      </div>
+    <template is="dom-if" if="[[!photos.length]]" restamp="true">
+      Get in the game!!! Take some photos.
     </template>
+
+    <ul>
+      <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
+        <li>
+          <img src$="[[photo.picture]]">
+          <div class="item__info">
+            <h3>[[photo.task.description]]</h3>
+            <time datetime$="[[photo.metadata.created]]">[[photo.dateFormatted]]</time>
+            <p>[[photo.score]] points</p>
+          </div>
+          <button on-click="delete">Delete</button>
+        </li>
+      </template>
+    </ul>
   </template>
 
   <script>
@@ -186,6 +98,11 @@
             value: []
           }
         };
+      }
+
+      delete(event) {
+        const index = event.model.index;
+        this.splice('photos', index, 1);
       }
     }
 

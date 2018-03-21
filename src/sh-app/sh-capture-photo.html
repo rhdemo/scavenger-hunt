@@ -155,7 +155,10 @@
       upload() {
         const UUID = this.shadowRoot.querySelector('#service').generateUUID();
 
-        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, ''); // the backend should not receive the data:image part
+        let originalImage = this.canvas.toDataURL('image/jpeg'); // need to store the original so we can use it again in the UI
+        let created = new Date();
+        let dateFormatOptions = { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' };
         let data = {
           type: 'picture',
           taskId: this.task.id,
@@ -165,7 +168,7 @@
           metadata: {
             exifData: this.exifData,
             userAgent: navigator.userAgent,
-            created: new Date()
+            created: created
           }
         };
 
@@ -179,7 +182,15 @@
           composed: true
         });
 
-        this.currentPhoto = data;
+        // need to create a copy of the data so it isn't manipulated before the
+        // socket message is sent
+        let dataCopy = Object.assign({}, data);
+        dataCopy.picture = originalImage;
+        dataCopy.task = this.task;
+        dataCopy.dateFormatted = Intl.DateTimeFormat('en-US', dateFormatOptions).format(created);
+        dataCopy.score = 0;
+
+        this.currentPhoto = dataCopy;
         this.push('photos', this.currentPhoto);
         this.dispatchEvent(customEvent);
       }
