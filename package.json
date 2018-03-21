@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/kylebuch8/scavenger-hunt#readme",
   "dependencies": {
-    "blueimp-load-image": "^2.18.0"
+    "blueimp-load-image": "^2.18.0",
+    "keycloak-js": "^3.4.3",
+    "localforage": "^1.6.0"
   }
 }

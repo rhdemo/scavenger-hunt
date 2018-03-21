@@ -4,6 +4,7 @@
 <link rel="import" href="./sh-service.html">
 <link rel="import" href="./sh-splash.html">
 <link rel="import" href="./sh-main.html">
+<link rel="import" href="./sh-auth.html">
 
 <dom-module id="sh-app">
   <template>
@@ -81,13 +82,29 @@
         super();
 
         this.userConfiguredHandler = this.userConfiguredHandler.bind(this);
+        this.onAuthInit = this.onAuthInit.bind(this);
         this.addEventListener('user-configured', this.userConfiguredHandler);
         this.addEventListener('send-socket-message', this.sendSocketMessage);
       }
 
       connectedCallback() {
         super.connectedCallback();
-        this.$.service.connectToSocket();
+
+        ShAuth.initSSO().then(initResult => {
+          initResult
+          .success(this.onAuthInit)
+          .error(err => console.error('initError', err));
+        });
+
+      }
+
+      onAuthInit(authed) {
+        console.log(`initSuccess; authenticated: ${authed}`);
+        console.log(ShAuth.keycloak.refreshToken);
+        // ShAuth.save();
+        if (authed) {
+          this.$.service.connectToSocket();
+        }
       }
 
       userConfiguredHandler(event) {
