@@ -24,7 +24,7 @@
         ShAuth.keycloak.onTokenExpired       = ShAuth.onTokenExpired;
 
         var options = {
-          flow: 'hybrid',
+          flow: 'standard',
         };
 
         if (required) {
@@ -38,9 +38,8 @@
         }
 
         ShAuth.intervalId = setInterval(() => {
-          console.log('checking whether token needs updating');
           ShAuth.keycloak.updateToken(60);
-        }, 3 * 1000);
+        }, 30 * 1000);
 
         return ShAuth.keycloak.init(options);
       });
@@ -59,13 +58,13 @@
 
     static onAuthSuccess() {
       console.log('onAuthSuccess');
+      ShAuth.save();
     }
     static onAuthError() {
       console.log("onAuthError");
     }
     static onAuthRefreshSuccess() {
       console.log("onAuthRefreshSuccess");
-
       ShAuth.save();
     }
     static onAuthRefreshError() {

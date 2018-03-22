@@ -100,8 +100,6 @@
 
       onAuthInit(authed) {
         console.log(`initSuccess; authenticated: ${authed}`);
-        console.log(ShAuth.keycloak.refreshToken);
-        // ShAuth.save();
         if (authed) {
           this.$.service.connectToSocket();
         }
