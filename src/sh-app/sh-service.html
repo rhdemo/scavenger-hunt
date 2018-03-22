@@ -92,9 +92,8 @@
         this.reconnectTries = 0;
 
         const message = {
-          type: 'connection'
-          //playerId: '' // only if logged in
-          //token: '' // only if logged in
+          type: 'connection',
+          token: ShAuth.keycloak.token
         };
 
         this.sendMessage(message);

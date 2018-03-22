@@ -52,31 +52,39 @@
         token: ShAuth.keycloak.token,
       });
     }
+
     static read() {
       return localforage.getItem('rh_sso_user');
+    }
+
+    static getUser() {
+      return ShAuth.keycloak.tokenParsed;
     }
 
     static onAuthSuccess() {
       console.log('onAuthSuccess');
       ShAuth.save();
     }
+
     static onAuthError() {
       console.log("onAuthError");
     }
+
     static onAuthRefreshSuccess() {
       console.log("onAuthRefreshSuccess");
       ShAuth.save();
     }
+
     static onAuthRefreshError() {
       console.log("onAuthRefreshError");
     }
     static onAuthLogout() {
       console.log("onAuthLogout");
     }
+
     static onTokenExpired() {
       console.log("onTokenExpired");
     }
 
   }
 </script>
-
