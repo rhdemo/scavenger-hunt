@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="./sh-capture-photo-history.html">
+<link rel="import" href="./sh-avatar.html">
 
 <dom-module id="sh-profile">
   <template>
@@ -26,7 +27,7 @@
 
       .header span {
         border-radius: 50%;
-        padding: .5rem;  
+        padding: .5rem;
         display: inline-block;
         background: white;
         border: 1px solid rgba(0,0,0,.2);
@@ -49,7 +50,8 @@
     </style>
       <div class="header">
         <span>
-          <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
+          <!-- <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture"> -->
+          <sh-avatar email="mwc@clayto.com"></sh-avatar>
       </span>
     <h1>Andres Galante</h1>
     <button>Log out</button>

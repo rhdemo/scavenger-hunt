@@ -8,6 +8,7 @@
 <link rel="import" href="./sh-profile.html">
 <link rel="import" href="./sh-capture-photo.html">
 <link rel="import" href="./sh-party-island.html">
+<link rel="import" href="./sh-avatar.html">
 
 <dom-module id="sh-main">
   <template>
@@ -391,12 +392,11 @@
 
     <app-localstorage-document key="sh-photos" data="{{photos}}"></app-localstorage-document>
 
-    <sh-navigation user="{{user}}"></sh-navigation>
+    <sh-navigation user="[[user]]"></sh-navigation>
 
     <div class="map">
       <div class$="user move-to-[[lastCompletedTask]]">
-        <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
-        <div class="user__shadow"></div>
+        <sh-avatar gamepiece email="[[user.email]]">{{ user.email }}</sh-avatar>
       </div>
       <div class="castle"></div>
       <button class="party-island" on-click="openPartyIsland">
@@ -421,7 +421,7 @@
       </sh-panel>
       <sh-panel name="capture-photo">
         <sh-capture-photo
-          user="{{user}}"
+          user="[[user]]"
           photos="{{photos}}"
           tasks-array="{{tasksArray}}"
           task="{{selectedTask}}"
@@ -473,7 +473,9 @@
             value: 0
           },
           user: {
-            type: Object
+            type: Object,
+            value: {},
+            notify: true,
           },
           lastScore: {
             type: Object
@@ -495,6 +497,8 @@
 
       connectedCallback() {
         super.connectedCallback();
+
+        console.log('sh-main', this.user);
 
         this.shadowRoot.querySelector('.panel-modal').addEventListener('transitionend', this.panelModalTransitionEndHandler);
         this.shCapturePhotoElement = this.shadowRoot.querySelector('sh-capture-photo');
