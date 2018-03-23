@@ -80,6 +80,7 @@
       }
 
       connectToSocket() {
+        console.log('Connecting to socket');
         this.ws = new WebSocket(this.socketUrl);
 
         this.ws.onopen = this.onOpen;
@@ -97,11 +98,10 @@
         };
 
         this.sendMessage(message);
-
-        requestAnimationFrame(this.ping);
       }
 
       onClose(event) {
+        console.log('Socket closed', event);
         this.socketClosed = true;
 
         if (this.connectInterval) {
@@ -175,6 +175,8 @@
         });
 
         this.dispatchEvent(customEvent);
+
+        requestAnimationFrame(this.ping);
       }
 
       updateScore(data) {
