@@ -35,7 +35,7 @@
       <sh-splash name="splash"></sh-splash>
       <sh-main
         name="main"
-        user="{{user}}"
+        user="[[user]]"
         map-tasks="{{mapTasks}}"
         party-island-tasks="{{partyIslandTasks}}"
         last-score="{{lastScore}}"
@@ -59,7 +59,7 @@
           },
           user: {
             type: Object,
-            value: null
+            value: {}
           },
           mapTasks: {
             type: Array,
@@ -101,6 +101,11 @@
       onAuthInit(authed) {
         console.log(`initSuccess; authenticated: ${authed}`);
         if (authed) {
+          this.set('user', {
+            email: ShAuth.keycloak.tokenParsed.email,
+            name: ShAuth.keycloak.tokenParsed.name,
+          });
+          console.log(this.user);
           this.$.service.connectToSocket();
         }
       }

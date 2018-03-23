@@ -49,14 +49,14 @@
         padding-right: .5rem;
       }
 
-      img {
+      .user__picture {
         border-radius: 50%;
         display: block;
         width: 25px;
         height: 25px;
       }
 
-      img[src*="svg"] {
+      .user__picture[src*="svg"] {
         margin-right: .3rem;
         display: block;
         width: auto;
@@ -76,7 +76,8 @@
 
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="profile">
-          <img src="/images/andres.jpg" alt="avatar of andres galante" class="user">
+          <sh-avatar class="user__picture" email="{{ user.email }}"></sh-avatar>
+          <!-- <img src="/images/andres.jpg" alt="avatar of andres galante" class="user"> -->
         </a>
       </li>
     </ul>
