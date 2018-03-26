@@ -182,28 +182,6 @@
         animation-fill-mode: forwards;
       }
 
-      .user__picture {
-        display: block;
-        width: calc(8vw - 4px);
-        height: calc(8vw - 4px);
-        border-radius: 50%;
-        animation: hover 1.4s ease infinite alternate;
-        flex: 0 0 calc(8vw - 4px);
-        border: 1px solid rgba(0, 0, 0, .2);
-        background-color: white;
-        padding: 2px;
-      }
-
-      .user__shadow {
-        width: 6vw;
-        height: 2vw;
-        background-color: rgba(0, 0, 0, .3);
-        flex: 0 0 2vw;
-        border-radius: 50%;
-        animation: shadow 1.4s ease infinite alternate;
-      }
-
-
       /* Movements */
       .move-to-1  {
         animation-name: path-to-one;
@@ -371,23 +349,6 @@
           z-index: 700;
         }
       }
-
-      @keyframes hover {
-        100% {
-          transform: translateY(-20%);
-        }
-      }
-
-      @keyframes shadow {
-        0% {
-          transform: scale3d(1, 1, 1);
-        }
-        100% {
-          transform: scale3d(.8, .8, 1);
-          filter: opacity(30%)
-        }
-      }
-
     </style>
 
     <app-localstorage-document key="sh-photos" data="{{photos}}"></app-localstorage-document>
@@ -395,7 +356,7 @@
     <sh-navigation user="[[user]]"></sh-navigation>
 
     <div class="map">
-      <div class$="user move-to-[[lastCompletedTask]]">
+      <div class$="user move-to-[[currentTask]]">
         <sh-avatar gamepiece email="[[user.email]]">{{ user.email }}</sh-avatar>
       </div>
       <div class="castle"></div>
