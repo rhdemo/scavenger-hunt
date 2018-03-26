@@ -58,10 +58,6 @@
             type: Object,
             notify: true
           },
-          leaders: {
-            type: Array,
-            notify: true
-          },
           lastPing: {
             type: Number,
             value: 0
@@ -142,9 +138,6 @@
             this.updateScore(data);
             break;
 
-          case 'leaderboard':
-            this.updateLeaderboard(data);
-
           default:
         }
       }
@@ -183,10 +176,6 @@
         this.user.score += data.score;
         this.notifyPath('user.score');
         this.set('lastScore', data);
-      }
-
-      updateLeaderboard(data) {
-        this.set('leaders', data.scores);
       }
 
       ping(now) {

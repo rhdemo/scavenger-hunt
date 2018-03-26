@@ -128,7 +128,7 @@
 
     <h1>Leaderboard</h1>
     <p>
-      You are on the <strong>823<sup>[[_computeSuffix(823)]]</sup> place</strong>!
+      You are on the <strong>[[rank]]<sup>[[_computeSuffix(rank)]]</sup> place</strong>!
     </p>
     </div>
 
@@ -139,6 +139,7 @@
           <span class="leaderboard__position"> [[_computePosition(index)]]
             <sup>[[_computeSuffix(index, 1)]]</sup>
           </span>
+          <span>[[leader.score]] point[[_computePlural(leader.score)]]</span>
           <img src="/images/andres.jpg" alt$="Avatar of [[leader.name]]">
           <span class="leaderboard__username">[[leader.name]]</span>
         </li>
@@ -153,8 +154,32 @@
         return {
           leaders: {
             type: Array
+          },
+          playerId: {
+            type: String
+          },
+          rank: {
+            type: Number
+          },
+          leaderboardUrl: {
+            type: String,
+            value: () => {
+              return (location.hostname === 'localhost') ?
+                'http://localhost:8080/leaderboard' :
+                'https://scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/leaderboard';
+            }
           }
         };
+      }
+
+      getScores() {
+        fetch(`${this.leaderboardUrl}?playerId=${this.playerId}`)
+          .then(response => response.json())
+          .then(data => {
+            this.leaders = data.scores;
+            this.rank = data.rank;
+          })
+          .catch(err => console.log(err));
       }
 
       _computePosition(index) {
@@ -182,6 +207,10 @@
         }
 
         return "th";
+      }
+
+      _computePlural(number) {
+        return number === 1 ? '' : 's';
       }
     }
 
