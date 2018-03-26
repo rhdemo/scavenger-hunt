@@ -494,6 +494,7 @@
 
         this.shadowRoot.querySelector('.panel-modal').addEventListener('transitionend', this.panelModalTransitionEndHandler);
         this.shCapturePhotoElement = this.shadowRoot.querySelector('sh-capture-photo');
+        this.shLeaderboardElement = this.shadowRoot.querySelector('sh-leaderboard');
       }
 
       navItemSelectedHandler(event) {
@@ -559,6 +560,11 @@
       panelModalTransitionEndHandler(event) {
         if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo') {
           this.shCapturePhotoElement.reset();
+        }
+
+        // when the leaderboard is opened, refresh the scores
+        if (event.target.classList.contains('open') && event.target.selected === 'leaderboard') {
+          this.shLeaderboardElement.getScores();
         }
       }
 
