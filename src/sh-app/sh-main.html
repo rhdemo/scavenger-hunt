@@ -378,6 +378,7 @@
         <sh-profile photos="{{photos}}"></sh-profile>
       </sh-panel>
       <sh-panel name="leaderboard">
+        <sh-leaderboard player-id="{{user.playerId}}"></sh-leaderboard>
       </sh-panel>
       <sh-panel name="capture-photo">
         <sh-capture-photo
@@ -431,6 +432,10 @@
           lastCompletedTask: {
             type: Number,
             value: 0
+          },
+          currentTask: {
+            type: Number,
+            value: 1
           },
           user: {
             type: Object,
@@ -523,6 +528,11 @@
       }
 
       panelModalTransitionEndHandler(event) {
+        if (event.propertyName !== 'transform') {
+          return;
+        }
+
+        // reset the capture photo element when it is closed
         if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo') {
           this.shCapturePhotoElement.reset();
         }
@@ -530,6 +540,11 @@
         // when the leaderboard is opened, refresh the scores
         if (event.target.classList.contains('open') && event.target.selected === 'leaderboard') {
           this.shLeaderboardElement.getScores();
+        }
+
+        // when the map is the current screen, move the user to the correct task
+        if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo' && this.partyIslandOpen === '') {
+          this.currentTask = this.lastCompletedTask + 1;
         }
       }
 
