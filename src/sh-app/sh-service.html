@@ -142,11 +142,11 @@
       }
 
       configure(data) {
-        // this.set('user', {
-        //   playerId: data.playerId,
-        //   username: data.username,
-        //   score: 0
-        // });
+        this.set('user', {
+          playerId: data.playerId,
+          username: data.username,
+          score: 0
+        });
 
         const tasks = Object.keys(data.tasks).map(key => {
           let task = data.tasks[key];
