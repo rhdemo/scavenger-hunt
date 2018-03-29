@@ -153,7 +153,7 @@
           return task;
         });
 
-        this.set('mapTasks', tasks.filter(task => task.type === 'map').sort((a, b) => a.stage > b.stage));
+        this.set('mapTasks', tasks.filter(task => task.type === 'map').sort((a, b) => a.stage - b.stage));
         this.set('partyIslandTasks', tasks.filter(task => task.type === 'partyisland'));
 
         const customEvent = new CustomEvent('user-configured', {

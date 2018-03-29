@@ -364,7 +364,7 @@
       </button>
       <template is="dom-repeat" items="{{mapTasks}}" as="mapTask" index-as="index">
         <div class$="stage stage--[[mapTask.stage]] [[_computeStageCompleted(mapTask.completed)]]">
-          <button class="stage__action" on-click="openMapTask">[[_computeIndexPlusOne(index)]]</button>
+          <button class="stage__action" on-click="openMapTask">[[mapTask.stage]]</button>
         </div>
       </template>
     </div>
