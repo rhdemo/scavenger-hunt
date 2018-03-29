@@ -51,7 +51,7 @@
       <div class="header">
         <span>
           <!-- <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture"> -->
-          <sh-avatar email="mwc@clayto.com"></sh-avatar>
+          <sh-avatar email="[[user.email]]"></sh-avatar>
       </span>
     <h1>Andres Galante</h1>
     <button>Log out</button>
@@ -68,6 +68,9 @@
           photos: {
             type: Array,
             value: []
+          },
+          user: {
+            type: Object
           }
         };
       }

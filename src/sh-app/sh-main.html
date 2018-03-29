@@ -375,7 +375,7 @@
 
     <iron-pages class$="panel panel-modal [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
       <sh-panel name="profile">
-        <sh-profile photos="{{photos}}"></sh-profile>
+        <sh-profile photos="{{photos}}" user="[[user]]"></sh-profile>
       </sh-panel>
       <sh-panel name="leaderboard">
         <sh-leaderboard player-id="{{user.playerId}}"></sh-leaderboard>
@@ -459,8 +459,6 @@
 
       connectedCallback() {
         super.connectedCallback();
-
-        console.log('sh-main', this.user);
 
         this.shadowRoot.querySelector('.panel-modal').addEventListener('transitionend', this.panelModalTransitionEndHandler);
         this.shCapturePhotoElement = this.shadowRoot.querySelector('sh-capture-photo');

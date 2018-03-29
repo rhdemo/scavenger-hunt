@@ -71,22 +71,14 @@
       static get is() { return 'sh-avatar'; }
       static get properties() {
         return {
-          email: { type: String, value: '', notify: true },
-          image: { type: String, value: '', notify: true },
+          email: { type: String, value: '', observer: '_initImage' },
+          image: { type: String, value: '' },
           gamepiece: { type: Boolean, value: false },
         };
       }
 
-      constructor() {
-        super();
-
-        this.addEventListener('email-changed', this._initImage);
-        this.addEventListener('image-changed', this._initImage);
-      }
-
       connectedCallback() {
         super.connectedCallback();
-
         this._initImage();
       }
 
