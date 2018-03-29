@@ -48,14 +48,14 @@
       }
 
     </style>
-      <div class="header">
-        <span>
-          <!-- <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture"> -->
-          <sh-avatar email="[[user.email]]"></sh-avatar>
+
+    <div class="header">
+      <span>
+        <sh-avatar email="[[user.email]]"></sh-avatar>
       </span>
-    <h1>Andres Galante</h1>
-    <button>Log out</button>
-  </div>
+      <h1>[[user.email]]</h1>
+      <button>Log out</button>
+    </div>
 
     <sh-capture-photo-history photos="{{photos}}"></sh-capture-photo-history>
   </template>
