@@ -9,22 +9,94 @@
         background: #ececec;
         padding: 2rem;
       }
+
+      h1 {
+        margin: 0;
+        font-family: 'bangers', sans-serif;
+      }
+
+      h2 {
+        margin: 0 -2rem;
+        padding: .3rem 2rem .3rem 2rem;
+        font-size: .8rem;
+        text-transform: uppercase;
+        border-bottom: 1px solid rgba(0, 0, 0, .2);
+        border-top: 1px solid rgba(0, 0, 0, .2);
+        background-color: black;
+        color: #ececec;
+        line-height: 1;
+        position: sticky;
+        top: 0;
+      }
+
+      p {
+        line-height: 1.5;
+      }
+
+      ul {
+        padding: 0;
+        list-style: none;
+        margin: 0 -2rem;
+      }
+
+      li {
+        display: flex;
+        align-items: center;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+      }
+
+      .header {
+        text-align: center;
+      }
+
+      .header img {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      .header span {
+        border-radius: 50%;
+        padding: 1rem;
+        display: inline-block;
+        background: white;
+        border: 1px solid rgba(0, 0, 0, .2);
+        height: 2rem;
+        width: 2rem;
+      }
     </style>
 
-    <h1>Party Island</h1>
-    <template is="dom-repeat" items="{{tasks}}" as="task" index-as="index">
-      <div on-click="capturePhoto">
-        <template is="dom-if" if="[[!task.completed]]" restamp="true">
-          &#x2610;
-        </template>
-        <template is="dom-if" if="[[task.completed]]" restamp="true">
-          &#x2611;
-        </template>
-        [[task.description]]
-      </div>
-    </template>
-  </template>
 
+    <div class="header">
+      <span>
+        <!-- <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy"> -->
+        🎉 <!-- we need an icon -->
+      </span>
+
+      <h1>Party Island</h1>
+      <p>
+        Pick your own adventure!
+      </p>
+    </div>
+
+    <h2>Challanges</h2>
+
+    <ul>
+
+      <template is="dom-repeat" items="{{tasks}}" as="task" index-as="index">
+        <li on-click="capturePhoto">
+          <template is="dom-if" if="[[!task.completed]]" restamp="true">
+            &#x2610;
+          </template>
+          <template is="dom-if" if="[[task.completed]]" restamp="true">
+            &#x2611;
+          </template>
+          [[task.description]]
+        </li>
+      </template>
+  </template>
+  </ul>
   <script>
     class ShPartyIsland extends Polymer.Element {
       static get is() { return 'sh-party-island'; }

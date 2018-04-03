@@ -80,11 +80,17 @@
         box-shadow: 0 0 4px white;
         border-radius: 50%;
         position: relative;
+        pointer-events: none;
       }
 
       .stage--done {
         background-color: #ffbf00;
         border: 2px solid #dd9e00;
+      }
+
+      .stage--current,
+      .stage--done {
+        pointer-events: auto;
       }
 
       /*
