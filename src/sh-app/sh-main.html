@@ -369,7 +369,7 @@
       <button class="party-island" on-click="openPartyIsland">
       </button>
       <template is="dom-repeat" items="{{mapTasks}}" as="mapTask" index-as="index">
-        <div class$="stage stage--[[mapTask.stage]] [[_computeStageCompleted(mapTask.completed)]]">
+        <div class$="stage stage--[[mapTask.stage]] [[_computeStageCurrent(mapTask.stage, currentTask)]] [[_computeStageCompleted(mapTask.completed)]]">
           <button class="stage__action" on-click="openMapTask">[[mapTask.stage]]</button>
         </div>
       </template>
@@ -512,6 +512,7 @@
       }
 
       openMapTask(event) {
+        console.log(event);
         if (event.model.mapTask.stage !== this.lastCompletedTask + 1) {
           return;
         }
@@ -554,6 +555,10 @@
 
       _computeIndexPlusOne(index) {
         return index + 1;
+      }
+
+      _computeStageCurrent(stage, currentTask) {
+        return stage === currentTask ? 'stage--current' : '';
       }
 
       _computeStageCompleted(completed) {
