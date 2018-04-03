@@ -74,7 +74,7 @@
     </template>
 
     <ul>
-      <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
+      <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index" sort="_sort">
         <li>
           <img src$="[[photo.picture]]">
           <div class="item__info">
@@ -101,8 +101,12 @@
       }
 
       delete(event) {
-        const index = event.model.index;
+        const index = this.photos.map(photo => photo.transactionId).indexOf(event.model.photo.transactionId);
         this.splice('photos', index, 1);
+      }
+
+      _sort(a, b) {
+        return new Date(b.dateFormatted).getTime() - new Date(a.dateFormatted).getTime();
       }
     }
 
