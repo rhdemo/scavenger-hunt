@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 
-<link rel="import" href="./sh-service.html">
 <link rel="import" href="./sh-loadimage.html">
 
 <dom-module id="sh-capture-photo">
@@ -59,26 +58,10 @@
 
     </style>
 
-    <sh-service id="service"></sh-service>
-
-
-    <div class="header">
-        <span>
-          <img src="/images/coin.svg" alt="Leaderboard: Icon of a trpphy">
-        </span>
-  
-  
-        <h1>Challenge 1</h1>
-        <div class="challange">
-          <p>[[task.description]]</p>
-          <button class="challange__button" on-click="takePhoto">Take a Photo</button>
-          <input type="file" id="imageInput" name="image" accept="image/*" />
-      
-        </div>
-      </div>
-
-   
-
+    <h1>Capture Photo</h1>
+    <p>[[task.description]]</p>
+    <button on-click="takePhoto">Take a Photo</button>
+    <input type="file" id="imageInput" name="image" accept="image/*" />
     <div>
       <canvas id="canvas"></canvas>
     </div>
@@ -145,7 +128,8 @@
             type: Object
           },
           user: {
-            type: Object
+            type: Object,
+            value: {}
           },
           currentPhoto: {
             type: Object
@@ -208,9 +192,12 @@
       }
 
       upload() {
-        const UUID = this.shadowRoot.querySelector('#service').generateUUID();
+        const UUID = this.generateUUID();
 
-        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+        let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, ''); // the backend should not receive the data:image part
+        let originalImage = this.canvas.toDataURL('image/jpeg'); // need to store the original so we can use it again in the UI
+        let created = new Date();
+        let dateFormatOptions = { day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit' };
         let data = {
           type: 'picture',
           taskId: this.task.id,
@@ -220,7 +207,7 @@
           metadata: {
             exifData: this.exifData,
             userAgent: navigator.userAgent,
-            created: new Date()
+            created: created
           }
         };
 
@@ -234,7 +221,15 @@
           composed: true
         });
 
-        this.currentPhoto = data;
+        // need to create a copy of the data so it isn't manipulated before the
+        // socket message is sent
+        let dataCopy = Object.assign({}, data);
+        dataCopy.picture = originalImage;
+        dataCopy.task = this.task;
+        dataCopy.dateFormatted = Intl.DateTimeFormat('en-US', dateFormatOptions).format(created);
+        dataCopy.score = 0;
+
+        this.currentPhoto = dataCopy;
         this.push('photos', this.currentPhoto);
         this.dispatchEvent(customEvent);
       }
@@ -290,6 +285,21 @@
           this.currentPhoto = null;
           this.fireTaskCompleted()
         }
+      }
+
+      generateUUID() {
+        let d = new Date().getTime();
+
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+          d += performance.now();
+        }
+
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+          let r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
       }
     }
 

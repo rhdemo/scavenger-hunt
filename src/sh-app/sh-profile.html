@@ -1,5 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="./sh-capture-photo-history.html">
+<link rel="import" href="./sh-avatar.html">
 
 <dom-module id="sh-profile">
   <template>
@@ -26,7 +27,7 @@
 
       .header span {
         border-radius: 50%;
-        padding: .5rem;  
+        padding: .5rem;
         display: inline-block;
         background: white;
         border: 1px solid rgba(0,0,0,.2);
@@ -47,13 +48,14 @@
       }
 
     </style>
-      <div class="header">
-        <span>
-          <img src="/images/andres.jpg" alt="avatar of andres galante" class="user__picture">
+
+    <div class="header">
+      <span>
+        <sh-avatar email="[[user.email]]"></sh-avatar>
       </span>
-    <h1>Andres Galante</h1>
-    <button>Log out</button>
-  </div>
+      <h1>[[user.email]]</h1>
+      <button>Log out</button>
+    </div>
 
     <sh-capture-photo-history photos="{{photos}}"></sh-capture-photo-history>
   </template>
@@ -66,6 +68,9 @@
           photos: {
             type: Array,
             value: []
+          },
+          user: {
+            type: Object
           }
         };
       }

@@ -4,6 +4,7 @@
 <link rel="import" href="./sh-service.html">
 <link rel="import" href="./sh-splash.html">
 <link rel="import" href="./sh-main.html">
+<link rel="import" href="./sh-auth.html">
 
 <dom-module id="sh-app">
   <template>
@@ -23,8 +24,7 @@
       user="{{user}}"
       map-tasks="{{mapTasks}}"
       party-island-tasks="{{partyIslandTasks}}"
-      last-score="{{lastScore}}"
-      leaders="{{leaders}}">
+      last-score="{{lastScore}}">
     </sh-service>
 
     <iron-pages
@@ -37,8 +37,7 @@
         user="{{user}}"
         map-tasks="{{mapTasks}}"
         party-island-tasks="{{partyIslandTasks}}"
-        last-score="{{lastScore}}"
-        leaders="{{leaders}}">
+        last-score="{{lastScore}}">
       </sh-main>
     </iron-pages>
   </template>
@@ -58,7 +57,7 @@
           },
           user: {
             type: Object,
-            value: null
+            value: {}
           },
           mapTasks: {
             type: Array,
@@ -70,9 +69,6 @@
           },
           lastScore: {
             type: Object
-          },
-          leaders: {
-            type: Array
           }
         };
       }
@@ -81,13 +77,30 @@
         super();
 
         this.userConfiguredHandler = this.userConfiguredHandler.bind(this);
+        this.onAuthInit = this.onAuthInit.bind(this);
         this.addEventListener('user-configured', this.userConfiguredHandler);
         this.addEventListener('send-socket-message', this.sendSocketMessage);
       }
 
       connectedCallback() {
         super.connectedCallback();
-        this.$.service.connectToSocket();
+
+        ShAuth.initSSO().then(initResult => {
+          initResult
+          .success(this.onAuthInit)
+          .error(err => console.error('initError', err));
+        });
+
+      }
+
+      onAuthInit(authed) {
+        console.log(`initSuccess; authenticated: ${authed}`);
+        if (authed) {
+          this.set('user.email', ShAuth.keycloak.tokenParsed.email);
+          this.set('user.name', ShAuth.keycloak.tokenParsed.name);
+
+          this.$.service.connectToSocket();
+        }
       }
 
       userConfiguredHandler(event) {
