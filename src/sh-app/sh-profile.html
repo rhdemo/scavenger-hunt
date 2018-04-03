@@ -54,7 +54,7 @@
         <sh-avatar email="[[user.email]]"></sh-avatar>
       </span>
       <h1>[[user.email]]</h1>
-      <button>Log out</button>
+      <button on-click="logout">Log out</button>
     </div>
 
     <sh-capture-photo-history photos="{{photos}}"></sh-capture-photo-history>
@@ -73,6 +73,10 @@
             type: Object
           }
         };
+      }
+
+      logout() {
+        ShAuth.keycloak.logout();
       }
     }
 
