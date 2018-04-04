@@ -80,6 +80,8 @@
 
     static onAuthRefreshError() {
       console.log("onAuthRefreshError");
+      ShAuth.clear();
+      ShAuth.keycloak.login();
     }
     static onAuthLogout() {
       ShAuth.clear();
