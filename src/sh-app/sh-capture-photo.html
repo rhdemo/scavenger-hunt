@@ -6,40 +6,97 @@
   <template>
     <style>
       :host {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        background: #ccc;
+        display: block;
+        min-height: 100%;
+        background: #ececec;
+        padding: 2rem;
+        text-align: center;
       }
 
       #imageInput {
         display: none;
       }
+
+      h1 {
+        margin: 0;
+        font-family: 'bangers', sans-serif;
+      }
+
+      .header {
+        text-align: center;
+      }
+
+      .header img {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      .header span {
+        border-radius: 50%;
+        padding: 1rem;
+        display: inline-block;
+        background: white;
+        border: 1px solid rgba(0, 0, 0, .2);
+        height: 2rem;
+        width: 2rem;
+      }
+
+      .challange {
+        background-color: white;
+        padding: 1rem;
+        margin-top: 1rem;
+        box-shadow: 0px 8px 8px -5px rgba(0, 0, 0, .4);
+        border-radius: 3px;
+      }
+
+      .challange__button {
+        background-color: green;
+        color: white;
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 400px;
+      }
+      template, canvas {
+        margin-bottom: 1rem;
+      }
     </style>
 
-    <h1>Capture Photo</h1>
-    <p>[[task.description]]</p>
-    <button on-click="takePhoto">Take a Photo</button>
-    <input type="file" id="imageInput" name="image" accept="image/*" />
-    <div>
-      <canvas id="canvas"></canvas>
+    <div class="header">
+      <span>
+        <img src="/images/coin.svg" alt="Icon of a coin">
+      </span>
+
+      <h1>Capture Photo</h1>
+
     </div>
-    <template is="dom-if" if="[[uploading]]" restamp="true">
-      Uploading...
-    </template>
-    <template is="dom-if" if="[[canUpload]]" restamp="true">
-      <button on-click="upload" disabled$="[[uploading]]">Upload Photo</button>
-    </template>
-    <template is="dom-if" if="[[failure]]" restamp="true">
-      <p>Not even close!</p>
-      <button on-click="reset">Try again</button>
-    </template>
-    <template is="dom-if" if="[[success]]" restamp="true">
-      Nice work! We have a match!
-    </template>
-    <template is="dom-if" if="[[error]]" restamp="true">
-      There was an error :(
-    </template>
+    <div class="challange">
+      <p>[[task.description]]</p>
+      <button on-click="takePhoto" class="challange__button">Take a Photo</button>
+      <input type="file" id="imageInput" name="image" accept="image/*" />
+      <div>
+        <canvas id="canvas"></canvas>
+      </div>
+      <template is="dom-if" if="[[uploading]]" restamp="true">
+        Uploading...
+      </template>
+      <template is="dom-if" if="[[canUpload]]" restamp="true">
+        <button on-click="upload" disabled$="[[uploading]]" class="challange__button">Upload Photo</button>
+      </template>
+      <template is="dom-if" if="[[failure]]" restamp="true">
+        <p>Not even close!</p>
+        <button on-click="reset">Try again</button>
+      </template>
+      <template is="dom-if" if="[[success]]" restamp="true">
+        Nice work! We have a match!
+      </template>
+      <template is="dom-if" if="[[error]]" restamp="true">
+        There was an error :(
+      </template>
+    </div>
+
   </template>
 
   <script>
