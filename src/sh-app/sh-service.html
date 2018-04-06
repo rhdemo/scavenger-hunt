@@ -18,13 +18,11 @@
           socketUrl: {
             type: String,
             value: () => {
-              switch (location.hostname) {
-                case 'scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com':
-                  return 'wss://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/game';
-                  break;
-                default:
-                  return 'ws://localhost:8080/game';
+              if (location.hostname === 'redhatkeynote.com') {
+                return 'wss://redhatkeynote.com/game';
               }
+              
+              return 'ws://localhost:8080/game';
             }
           },
           socketClosed: {
@@ -142,9 +140,10 @@
       }
 
       configure(data) {
+        this.set('user.dataCenter', data['data-center']);
         this.set('user.playerId', data.playerId);
         this.set('user.username', data.username);
-        this.set('user.score', 0);
+        this.set('user.score', data.score);
 
         const tasks = Object.keys(data.tasks).map(key => {
           let task = data.tasks[key];

@@ -208,8 +208,6 @@
       }
 
       upload() {
-        const UUID = this.generateUUID();
-
         let image = this.canvas.toDataURL('image/jpeg').replace(/^data:image\/(png|jpg|jpeg);base64,/, ''); // the backend should not receive the data:image part
         let originalImage = this.canvas.toDataURL('image/jpeg'); // need to store the original so we can use it again in the UI
         let created = new Date();
@@ -219,7 +217,7 @@
           taskId: this.task.id,
           picture: image,
           playerId: this.user.playerId,
-          transactionId: `${this.user.playerId}_${this.task.id}_${UUID}`,
+          transactionId: `${this.user.dataCenter}_${this.user.playerId}_${this.task.id}_${created.getTime()}`,
           metadata: {
             exifData: this.exifData,
             userAgent: navigator.userAgent,
@@ -301,21 +299,6 @@
           this.currentPhoto = null;
           this.fireTaskCompleted()
         }
-      }
-
-      generateUUID() {
-        let d = new Date().getTime();
-
-        if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
-          d += performance.now();
-        }
-
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-          let r = (d + Math.random() * 16) % 16 | 0;
-          d = Math.floor(d / 16);
-
-          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
       }
     }
 

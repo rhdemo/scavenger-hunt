@@ -19,6 +19,9 @@
         line-height: 1;
         position: sticky;
         top: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       ul {
@@ -67,14 +70,19 @@
 
     </style>
 
-    <h2>Capture photo history</h2>
+    <h2>
+      Capture photo history
+      <template is="dom-if" if="[[photos.length]]" restamp="true">
+        <button on-click="deleteAll">Delete All</button>
+      </template>
+    </h2>
 
     <template is="dom-if" if="[[!photos.length]]" restamp="true">
       Get in the game!!! Take some photos.
     </template>
 
     <ul>
-      <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index">
+      <template is="dom-repeat" items="{{photos}}" as="photo" index-as="index" sort="_sort">
         <li>
           <img src$="[[photo.picture]]">
           <div class="item__info">
@@ -101,8 +109,16 @@
       }
 
       delete(event) {
-        const index = event.model.index;
+        const index = this.photos.map(photo => photo.transactionId).indexOf(event.model.photo.transactionId);
         this.splice('photos', index, 1);
+      }
+
+      deleteAll() {
+        this.splice('photos', 0, this.photos.length);
+      }
+
+      _sort(a, b) {
+        return new Date(b.dateFormatted).getTime() - new Date(a.dateFormatted).getTime();
       }
     }
 
