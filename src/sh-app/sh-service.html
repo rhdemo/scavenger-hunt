@@ -18,6 +18,10 @@
           socketUrl: {
             type: String,
             value: () => {
+              if (location.hostname === 'redhatkeynote.com') {
+                return 'wss://redhatkeynote.com/game';
+              }
+              
               return 'ws://localhost:8080/game';
             }
           },
