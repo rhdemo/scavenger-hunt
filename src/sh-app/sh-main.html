@@ -358,6 +358,7 @@
     </style>
 
     <app-localstorage-document key="sh-photos" data="{{photos}}"></app-localstorage-document>
+    <app-localstorage-document key="sh-user" data="{{user}}"></app-localstorage-document>
 
     <sh-navigation user="[[user]]"></sh-navigation>
 
@@ -381,7 +382,7 @@
 
     <iron-pages class$="panel panel-modal [[panelOpen]]" selected="[[navItem]]" attr-for-selected="name">
       <sh-panel name="profile">
-        <sh-profile photos="{{photos}}" user="[[user]]"></sh-profile>
+        <sh-profile photos="{{photos}}" user="{{user}}"></sh-profile>
       </sh-panel>
       <sh-panel name="leaderboard">
         <sh-leaderboard player-id="{{user.playerId}}"></sh-leaderboard>
