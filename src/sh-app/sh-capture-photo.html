@@ -220,7 +220,7 @@
           taskId: this.task.id,
           picture: image,
           playerId: this.user.playerId,
-          transactionId: `${this.user.dataCenter}_${this.user.playerId}_${this.task.id}_${created.getTime()}`,
+          transactionId: `${this.user.dataCenter}_${this.hyphenate(this.user.username)}_${this.task.id}_${created.getTime()}`,
           metadata: {
             exifData: this.exifData,
             userAgent: navigator.userAgent,
@@ -302,6 +302,10 @@
           this.currentPhoto = null;
           this.fireTaskCompleted()
         }
+      }
+
+      hyphenate(string) {
+        return string.replace(/ /g, '-').toLowerCase();
       }
     }
 
