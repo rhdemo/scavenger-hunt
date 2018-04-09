@@ -72,12 +72,14 @@
             value: []
           },
           user: {
-            type: Object
+            type: Object,
+            notify: true
           }
         };
       }
 
       logout() {
+        this.set('user', null);
         ShAuth.keycloak.logout();
       }
     }

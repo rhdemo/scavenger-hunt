@@ -90,6 +90,10 @@
           token: ShAuth.keycloak.token
         };
 
+        if (this.user.playerId) {
+          message.playerId = this.user.playerId
+        }
+
         this.sendMessage(message);
       }
 
