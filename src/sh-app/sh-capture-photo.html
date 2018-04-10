@@ -93,7 +93,8 @@
         <button on-click="reset">Try again</button>
       </template>
       <template is="dom-if" if="[[success]]" restamp="true">
-        Nice work! We have a match!
+        <p>Nice work! We have a match!</p>
+        <p>You scored <strong>[[lastScore.score]] points</strong>!
       </template>
       <template is="dom-if" if="[[error]]" restamp="true">
         There was an error :(
