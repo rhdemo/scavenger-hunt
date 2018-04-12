@@ -88,20 +88,18 @@
         <img src="/images/coin.svg" alt="Point: Icon of a coin"> x [[user.score]]
       </li>
       <li>
-        <img src="/images/cloud.svg" alt="Cloud"> Azure
+        <img src="/images/cloud.svg" alt="Cloud"> [[user.dataCenter]]
       </li>
 
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="leaderboard">
           <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy">
           Leaders
-          <!-- <sh-number type="ordinal" number="10"></sh-number> -->
         </a>
       </li>
       <li>
         <a href="#" on-click="fireNavigationEvent" data-nav-item="profile">
           <sh-avatar class="user__picture" email="{{ user.email }}"></sh-avatar>
-          <!-- <img src="/images/andres.jpg" alt="avatar of andres galante" class="user"> -->
         </a>
       </li>
 
