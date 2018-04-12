@@ -18,10 +18,18 @@
           socketUrl: {
             type: String,
             value: () => {
-              if (location.hostname === 'redhatkeynote.com') {
+              if (location.hostname.includes('redhatkeynote.com')) {
                 return 'wss://redhatkeynote.com/game';
               }
-              
+
+              if (location.hostname.includes('scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com')) {
+                return 'wss://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-aws.sysdeseng.com/game';
+              }
+
+              if (location.hostname.includes('scavenger-hunt-game-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com')) {
+                return 'wss://scavenger-hunt-microservice-scavenger-hunt-microservice.apps.summit-azr.sysdeseng.com/game';
+              }
+
               return 'ws://localhost:8080/game';
             }
           },
