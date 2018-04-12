@@ -67,6 +67,29 @@
         height: 2rem;
         width: 2rem;
       }
+
+      .stage {
+        background-color: #ddd;
+        background-image: 
+        radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
+        background-position: center center;
+        background-repeat: no-repeat;
+        border: 3px solid  #ccc;
+        box-shadow: 0px 0px 0px 4px rgba(255,255,255,.5);
+        border-radius: 50%;
+        position: relative;
+        pointer-events: none;
+        height: 25px;
+        width: 25px;
+        margin-right: .5rem;
+      }
+
+      .stage--done {
+        background-color: #24ce00;
+        background-image: url(/images/checkmark.svg),
+        radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
+        border-color:  #20a300;
+      }
     </style>
 
 
@@ -85,10 +108,10 @@
       <template is="dom-repeat" items="{{tasks}}" as="task" index-as="index">
         <li on-click="capturePhoto">
           <template is="dom-if" if="[[!task.completed]]" restamp="true">
-            &#x2610;
+            <div class="stage"></div>
           </template>
           <template is="dom-if" if="[[task.completed]]" restamp="true">
-            &#x2611;
+            <div class="stage stage--done"></div>
           </template>
           [[task.description]]
         </li>
