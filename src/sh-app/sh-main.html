@@ -75,7 +75,10 @@
 
       .stage {
         background-color: #24ce00;
-        background-image: radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
+        background-image: url(/images/lock.svg),
+        radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
+        background-position: center center;
+        background-repeat: no-repeat;
         border: 3px solid #20a300;
         box-shadow: 0px 0px 0px 4px rgba(255,255,255,.5);
         border-radius: 50%;
@@ -85,6 +88,7 @@
 
 
       .stage--done {
+        background-image: url(/images/checkmark.svg);
         background-color: #ffbf00;
         border-color: #dd9e00;
       }
@@ -144,7 +148,7 @@
       .stage__action span {
         color: white;
         position: absolute;
-        bottom: -2px;
+        bottom: -8px;
         left: -10px;
         right: -10px;
         text-transform: uppercase;
