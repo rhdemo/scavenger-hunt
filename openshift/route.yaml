@@ -1,8 +1,37 @@
+---
 apiVersion: v1
 kind: Route
 metadata:
   name: scavenger-hunt-game
 spec:
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: scavenger-hunt-game
+  tls:
+    termination: edge
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: scavenger-hunt-game-rh
+spec:
+  host: redhatkeynote.com
+  port:
+    targetPort: 8080
+  to:
+    kind: Service
+    name: scavenger-hunt-game
+  tls:
+    termination: edge
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: scavenger-hunt-game-www-rh
+spec:
+  host: www.redhatkeynote.com
   port:
     targetPort: 8080
   to:
