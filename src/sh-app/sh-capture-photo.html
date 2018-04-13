@@ -7,10 +7,8 @@
     <style>
       :host {
         display: block;
-        min-height: 100%;
-        padding: 2rem;
+        box-sizing: border-box;
         text-align: center;
-        background-color: white;
       }
 
       #imageInput {
@@ -19,35 +17,29 @@
 
       h1 {
         margin: 0;
+        color: #556064;
+        text-shadow: 2px 2px 0 #fff;
         font-family: 'bangers', sans-serif;
       }
 
       .header {
         text-align: center;
+        background-image: url(/images/popup-bg.svg);
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        margin: -2rem -2rem 0 -2rem;
+        padding: 2rem;
+        box-sizing: border-box;
       }
 
       .header img {
-        display: block;
-        height: 100%;
-        width: 100%;
-      }
-
-      .header span {
-        border-radius: 50%;
-        padding: 1rem;
         display: inline-block;
-        background: white;
-        border: 1px solid rgba(0, 0, 0, .2);
-        height: 2rem;
-        width: 2rem;
+        height: 100px;
       }
 
       .challange {
-        /* background-color: white; */
-        /* padding: 1rem;
-        margin-top: 1rem;
-        box-shadow: 0px 8px 8px -5px rgba(0, 0, 0, .4);
-        border-radius: 3px; */
+        line-height: 1.5;
       }
 
       .challange__button {
@@ -68,12 +60,8 @@
     </style>
 
     <div class="header">
-      <span>
-        <img src="/images/coin.svg" alt="Icon of a coin">
-      </span>
-
+      <img src="/images/coin.svg" alt="Icon of a coin">
       <h1>Capture Photo</h1>
-
     </div>
     <div class="challange">
       <p>[[task.description]]</p>

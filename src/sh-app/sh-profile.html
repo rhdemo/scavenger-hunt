@@ -7,60 +7,52 @@
     <style>
       :host {
         display: block;
-        min-height: 100%;
-        padding: 2rem;
-        background-color: rgba(255, 255, 255, 1);
-        /* @supports (backdrop-filter: blur(10px) {
-          background-color: rgba(255, 255, 255, .75);
-          -webkit-backdrop-filter: blur(10px) grayscale(.5) brightness(150%);
-          backdrop-filter: blur(10px) grayscale(.5) brightness(150%);
-        } */
+        box-sizing: border-box;
       }
 
       .header {
         text-align: center;
-        margin-bottom: 1rem;
-      }
-
-      .header img {
-        display: block;
-        height: 100%;
-        width: 100%;
-        border-radius: 50%;
+        background-image: url(/images/popup-bg.svg);
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        margin: -2rem -2rem 0 -2rem;
+        padding: 2rem;
+        box-sizing: border-box;
+        color: #556064;
       }
 
       .header span {
-        border-radius: 50%;
-        padding: .5rem;
         display: inline-block;
-        background: white;
-        border: 1px solid rgba(0, 0, 0, .2);
-        height: 3rem;
-        width: 3rem;
+        border: 1px solid rgba(0,0,0,.1);
+        padding: 5px;
+        background-color: white;
+        border-radius: 50%;
       }
 
       h1 {
         margin: 0 0 .5rem 0;
+        text-shadow: 2px 2px 0 #fff;
         font-family: 'bangers', sans-serif;
       }
 
       .name p {
         margin-top: 0;
-        margin-bottom: .3rem;
-        font-weight: 600;
+        margin-bottom: 0rem;
       }
 
       .name p:last-of-type {
         margin-bottom: 1rem;
-        font-weight: 400;
-        color: gray;
+        color: rgba(0,0,0,.3);
       }
 
       button {
-        background: #ccc;
-        border-radius: 100rem;
-        padding: .5rem 1rem;
-        border: none;
+        color: #444;
+        padding: .3rem 1rem;
+        background: rgba(0,0,0,.2);
+        border-radius: 40rem;
+        border: 0;
+
       }
     </style>
 

@@ -5,30 +5,35 @@
     <style>
       :host {
         display: block;
-        min-height: 100%;
-        padding: 2rem;
-        background-color: rgba(255, 255, 255, 1);
-        /* @supports (backdrop-filter: blur(10px) {
-          background-color: rgba(255, 255, 255, .75);
-          -webkit-backdrop-filter: blur(10px) grayscale(.5) brightness(150%);
-          backdrop-filter: blur(10px) grayscale(.5) brightness(150%);
-        } */
+        box-sizing: border-box;
       }
 
       h1 {
-        margin: 0;
+        margin: 0 0 .5rem 0;
+        color: #556064;
+        text-shadow: 2px 2px 0 #fff;
         font-family: 'bangers', sans-serif;
       }
 
-      h2 {
-        margin: 0 -2rem;
-        padding: .3rem 2rem .3rem 2rem;
-        font-size: .8rem;
-        text-transform: uppercase;
-        background-color: rgba(0, 0, 0, .8);
-        color: rgba(255, 255, 255, .9);
-        position: sticky;
-        top: 0;
+      .header {
+        text-align: center;
+        background-image: url(/images/popup-bg.svg);
+        background-position: bottom center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        margin: -2rem -2rem 0 -2rem;
+        padding: 2rem;
+        box-sizing: border-box;
+        color: #556064;
+      }
+
+      .header img {
+        display: inline-block;
+        height: 100px;
+      }
+
+      .header p {
+        margin-top: 0;
       }
 
       ol {
@@ -100,32 +105,10 @@
         font-size: 1.3rem;
         flex: 0 0 4rem;
       }
-
-      .header {
-        text-align: center;
-      }
-
-      .header img {
-        display: block;
-        height: 100%;
-        width: 100%;
-      }
-
-      .header span {
-        border-radius: 50%;
-        padding: 1rem;
-        display: inline-block;
-        background: white;
-        border: 1px solid rgba(0, 0, 0, .2);
-        height: 2rem;
-        width: 2rem;
-      }
     </style>
 
     <div class="header">
-      <span>
-        <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy">
-      </span>
+      <img src="/images/trophy.svg" alt="Leaderboard: Icon of a trpphy">
 
 
       <h1>Leaderboard</h1>
