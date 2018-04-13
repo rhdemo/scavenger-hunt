@@ -17,8 +17,9 @@
         Loader indicator
       */
       :host {
+        box-sizing: border-box;
         display: block;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Overpass', sans-serif;
         font-weight: 400;
       }
 
@@ -92,6 +93,10 @@
         background-image: url(/images/checkmark.svg),
         radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
         border-color:  #20a300;
+      }
+
+      .stage--current {
+        background-image: radial-gradient(circle at top, rgba(255,255,255,.1), rgba(255,255,255,.2) 55%, transparent 55%);
       }
 
       .stage--current,

@@ -7,17 +7,23 @@
         display: block;
         position: relative;
         height: 100%;
+        box-sizing: border-box;
       }
 
       button {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
+        top: 0;
+        right: 0;
         z-index: 1;
+        background: transparent;
+        border: 0;
+        padding: 1rem;
       }
     </style>
 
-    <button on-click="closePanel">Close</button>
+    <button on-click="closePanel">
+      <img src="/images/x.svg" alt="">
+    </button>
     <slot></slot>
   </template>
 
