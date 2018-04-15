@@ -65,7 +65,9 @@
     </div>
     <div class="challange">
       <p>[[task.description]]</p>
-      <button on-click="takePhoto" class="challange__button">Take a Photo</button>
+      <template is="dom-if" if="[[!hasImage]]" restamp="true">
+        <button on-click="takePhoto" class="challange__button">Take a Photo</button>
+      </template>
       <input type="file" id="imageInput" name="image" accept="image/*" />
       <div>
         <canvas id="canvas"></canvas>
@@ -73,8 +75,9 @@
       <template is="dom-if" if="[[uploading]]" restamp="true">
         Uploading...
       </template>
-      <template is="dom-if" if="[[canUpload]]" restamp="true">
-        <button on-click="upload" disabled$="[[uploading]]" class="challange__button">Upload Photo</button>
+      <template is="dom-if" if="[[_computeShowUploadPhotoButton(canUpload, uploading)]]" restamp="true">
+        <p><button on-click="upload" disabled$="[[uploading]]" class="challange__button">Upload Photo</button></p>
+        <button on-click="reset">Cancel</button>
       </template>
       <template is="dom-if" if="[[failure]]" restamp="true">
         <p>Not even close!</p>
@@ -97,6 +100,10 @@
       static get is() { return 'sh-capture-photo'; }
       static get properties() {
         return {
+          hasImage: {
+            type: Boolean,
+            value: false
+          },
           uploading: {
             type: Boolean,
             value: false
@@ -141,7 +148,8 @@
             value: {}
           },
           currentPhoto: {
-            type: Object
+            type: Object,
+            value: null
           },
           lastScore: {
             type: Object,
@@ -195,6 +203,7 @@
               self.canvas = data;
 
               this.canUpload = true;
+              this.hasImage = true;
             }, options);
           });
         }
@@ -248,6 +257,7 @@
         this.canUpload = false;
         this.error = false;
         this.exifData = null;
+        this.hasImage = false;
         this.imageInput.value = '';
 
         const canvas = this.shadowRoot.querySelector('canvas');
@@ -295,6 +305,10 @@
 
       hyphenate(string) {
         return string.replace(/ /g, '-').toLowerCase();
+      }
+
+      _computeShowUploadPhotoButton(canUpload, uploading) {
+        return canUpload && !uploading;
       }
     }
 
