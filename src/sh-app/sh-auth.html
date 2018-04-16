@@ -8,7 +8,7 @@
       return ShAuth.read().then(user => {
         ShAuth.keycloak = Keycloak({
           realm: "summit",
-          url: "https://secure-sso-sso.apps.summit-aws.sysdeseng.com/auth",
+          url: "https://sso.redhatkeynote.com/auth",
           sslRequired: "external",
           resource: "game",
           clientId: "game",
@@ -86,6 +86,7 @@
     static onAuthLogout() {
       ShAuth.clear();
       console.log("onAuthLogout");
+      location.reload();
     }
 
     static onTokenExpired() {
