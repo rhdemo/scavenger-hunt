@@ -161,6 +161,14 @@
           let task = data.tasks[key];
           task.id = key;
 
+          if (data.achievements && data.achievements.length) {
+            data.achievements.forEach(achievement => {
+              if (achievement.taskId === task.id) {
+                task.completed = true;
+              }
+            });
+          }
+
           return task;
         });
 

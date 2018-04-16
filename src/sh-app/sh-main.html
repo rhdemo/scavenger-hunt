@@ -392,6 +392,10 @@
           },
           lastScore: {
             type: Object
+          },
+          firstLoad: {
+            type: Boolean,
+            value: true
           }
         };
       }
@@ -491,6 +495,7 @@
         // when the map is the current screen, move the user to the correct task
         if (!event.target.classList.contains('open') && event.target.selected === 'capture-photo' && this.partyIslandOpen === '') {
           this.currentTask = this.lastCompletedTask + 1;
+          this._scrollIntoView();
         }
       }
 
@@ -507,11 +512,29 @@
       }
 
       _computeUserClass() {
+        if (!this.mapTasks.length) {
+          return;
+        }
+
         this.mapTasks.forEach(task => {
           if (task.completed) {
             this.lastCompletedTask = task.stage;
           }
         });
+
+        if (this.firstLoad) {
+          this.currentTask = this.lastCompletedTask + 1;
+          this.firstLoad = false;
+          this._scrollIntoView();
+        }
+      }
+
+      _scrollIntoView() {
+        Polymer.Async.timeOut.run(() => {
+          this.shadowRoot.querySelector(`.stage.stage--${this.currentTask}`).scrollIntoView({
+            behavior: 'smooth'
+          });
+        }, 50);
       }
     }
 
