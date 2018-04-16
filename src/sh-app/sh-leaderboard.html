@@ -105,6 +105,10 @@
         font-size: 1.3rem;
         flex: 0 0 4rem;
       }
+
+      .leaderboard__username {
+        flex: 1;
+      }
     </style>
 
     <div class="header">
@@ -113,9 +117,8 @@
 
       <h1>Leaderboard</h1>
       <p>
-        You are on the
-        <strong>[[rank]]
-          <sup>[[_computeSuffix(rank)]]</sup> place</strong>!
+        You are in
+        <strong>[[rank]]<sup>[[_computeSuffix(rank)]]</sup> place</strong>!
       </p>
     </div>
 
@@ -126,9 +129,8 @@
           <span class="leaderboard__position"> [[_computePosition(index)]]
             <sup>[[_computeSuffix(index, 1)]]</sup>
           </span>
-          <span>[[leader.score]] point[[_computePlural(leader.score)]]</span>
-          <img src="/images/andres.jpg" alt$="Avatar of [[leader.name]]">
           <span class="leaderboard__username">[[leader.name]]</span>
+          <span>[[leader.score]] point[[_computePlural(leader.score)]]</span>
         </li>
       </template>
     </ol>
